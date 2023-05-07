@@ -60,7 +60,8 @@ public class ServiceDiscovery {
 //        }
         //随机 算法
         for(int i=0;i<5;i++) {
-            random.random(discover);
+            String url = random.random(discover);
+            System.out.println(url);
         }
 
 

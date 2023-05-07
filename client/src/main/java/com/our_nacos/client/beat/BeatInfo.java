@@ -26,10 +26,10 @@ public class BeatInfo {
     //TODO:服务元数据
     private Map<String, String> metadata = null;
 
-    //TODO:服务订阅
+    //TODO:判断是否加入心跳计时器
     private volatile boolean scheduled = false;
 
-    //TODO:心跳时间
+    //心跳间隔时间(ms)
     private volatile long period = 5000;
 
     //TODO:根据心跳信息判断服务是否停止

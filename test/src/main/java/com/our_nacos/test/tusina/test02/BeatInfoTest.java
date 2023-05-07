@@ -2,9 +2,9 @@ package com.our_nacos.test.tusina.test02;
 
 import java.util.Map;
 
-public class BeatInfo {
+public class BeatInfoTest {
 
-    public BeatInfo() {
+    public BeatInfoTest() {
     }
 
     private int port;

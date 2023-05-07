@@ -17,8 +17,8 @@ public class ServerTest {
             }
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             String s = bufferedReader.readLine();
-            BeatInfo beatInfo = JSON.parseObject(s, BeatInfo.class);
-            System.out.println(beatInfo);
+            BeatInfoTest beatInfoTest = JSON.parseObject(s, BeatInfoTest.class);
+            System.out.println(beatInfoTest);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

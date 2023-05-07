@@ -2,6 +2,10 @@ package com.out_nacos.client.beat;
 
 import java.util.Map;
 
+
+/*
+这个类的作用为保存心跳信息
+ */
 public class BeatInfo {
 
     public BeatInfo() {
@@ -11,19 +15,25 @@ public class BeatInfo {
 
     private String ip;
 
-    private double weight;
+    //TODO:权重
+    private double weight = 1;
 
     private String serviceName;
 
-    private String cluster;
+    //TODO:服务集群
+    private String cluster = null;
 
-    private Map<String, String> metadata;
+    //TODO:服务元数据
+    private Map<String, String> metadata = null;
 
-    private volatile boolean scheduled;
+    //TODO:服务订阅
+    private volatile boolean scheduled = false;
 
-    private volatile long period;
+    //TODO:心跳时间
+    private volatile long period = 5000;
 
-    private volatile boolean stopped;
+    //TODO:根据心跳信息判断服务是否停止
+    private volatile boolean stopped = false;
 
     public int getPort() {
         return port;

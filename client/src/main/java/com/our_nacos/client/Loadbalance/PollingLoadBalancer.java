@@ -2,6 +2,8 @@ package com.our_nacos.client.Loadbalance;
 
 import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.exception.NullBeatInfoException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,7 +14,10 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 public class PollingLoadBalancer {
 //    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
-   public void test(List<BeatInfo> beatInfos,AtomicInteger nextServerCyclicCounter){
+    @Autowired
+    private RestTemplate restTemplate;
+
+   public String polling(List<BeatInfo> beatInfos,AtomicInteger nextServerCyclicCounter){
        if(beatInfos == null ||beatInfos.size() == 0){
            throw new NullBeatInfoException();
        }
@@ -20,8 +25,12 @@ public class PollingLoadBalancer {
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
 //       http://localhost:8080/
-       //TODO:规范代码
-        System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
+//       http://namespace/
+       //RestTemplate中url 第一种写法
+       String url=REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/";
+       //RestTemplate中url 第二种写法
+//        String url=REQUEST_HEAD+beatInfo.getServiceName()+"/";
+       return url;
    }
 
     private int incrementAndGetModulo(int modulo,AtomicInteger nextServerCyclicCounter) {

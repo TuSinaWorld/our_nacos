@@ -9,13 +9,16 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 public class RandomLoadBalancer {
 
-    public void test(List< BeatInfo > beatInfos){
+    public String random(List< BeatInfo > beatInfos){
         int serverCount= beatInfos.size();
         Random random=new Random();
         int index = random.nextInt(serverCount);
         BeatInfo beatInfo = beatInfos.get(index);
-
-         System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
+        //RestTemplate中url 第一种写法
+        String url=REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/";
+        //RestTemplate中url 第二种写法
+//        String url=REQUEST_HEAD+beatInfo.getServiceName()+"/";
+        return url;
     }
 
 }

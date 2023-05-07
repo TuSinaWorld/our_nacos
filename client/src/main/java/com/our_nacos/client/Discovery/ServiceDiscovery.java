@@ -56,11 +56,11 @@ public class ServiceDiscovery {
            }
      //轮询 简单版
 //        for(int i=0;i<5;i++) {
-//            polling.test(discover,nextServerCyclicCounter);
+//            polling.polling(discover,nextServerCyclicCounter);
 //        }
         //随机 算法
         for(int i=0;i<5;i++) {
-            random.test(discover);
+            random.random(discover);
         }
 
 

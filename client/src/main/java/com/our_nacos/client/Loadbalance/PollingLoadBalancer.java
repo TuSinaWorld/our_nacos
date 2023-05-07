@@ -19,7 +19,7 @@ public class PollingLoadBalancer {
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
 //       http://localhost:8080/
-       System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
+        System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
    }
 
     private int incrementAndGetModulo(int modulo,AtomicInteger nextServerCyclicCounter) {

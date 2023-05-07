@@ -6,5 +6,5 @@ public class Constants {
     //心跳线程名常量
     public static final String HEARTBEAT_THREAD_NAME = "com.our_nacos.beat.sender";
     //请求前缀
-    public static final String REQUEST_HEAD="http://";
+     public static final String REQUEST_HEAD="http://";
 }

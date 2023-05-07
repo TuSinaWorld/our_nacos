@@ -15,7 +15,7 @@ public class RandomLoadBalancer {
         int index = random.nextInt(serverCount);
         BeatInfo beatInfo = beatInfos.get(index);
 
-        System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
+         System.out.println(REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/");
     }
 
 }

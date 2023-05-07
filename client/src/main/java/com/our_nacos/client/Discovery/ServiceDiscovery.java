@@ -64,7 +64,7 @@ public class ServiceDiscovery {
         }
 
 
-    }
+     }
     public  static List<BeatInfo> discover(Map<String,List<BeatInfo>> map ,String serviceName) {
         return map.get(serviceName);
     }

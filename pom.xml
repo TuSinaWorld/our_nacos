@@ -15,8 +15,8 @@
     <name>our_nacos</name>
     <description>our_nacos</description>
     <modules>
-        <module>test</module>
-        <module>client</module>
+         <module>test</module>
+         <module>client</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>

@@ -39,72 +39,81 @@ public class BeatInfo {
         return port;
     }
 
-    public void setPort(int port) {
+    public BeatInfo setPort(int port) {
         this.port = port;
+        return this;
     }
 
     public String getIp() {
         return ip;
     }
 
-    public void setIp(String ip) {
+    public BeatInfo setIp(String ip) {
         this.ip = ip;
+        return this;
     }
 
     public double getWeight() {
         return weight;
     }
 
-    public void setWeight(double weight) {
+    public BeatInfo setWeight(double weight) {
         this.weight = weight;
+        return this;
     }
 
     public String getServiceName() {
         return serviceName;
     }
 
-    public void setServiceName(String serviceName) {
+    public BeatInfo setServiceName(String serviceName) {
         this.serviceName = serviceName;
+        return this;
     }
 
     public String getCluster() {
         return cluster;
     }
 
-    public void setCluster(String cluster) {
+    public BeatInfo setCluster(String cluster) {
         this.cluster = cluster;
+        return this;
     }
 
     public Map<String, String> getMetadata() {
         return metadata;
     }
 
-    public void setMetadata(Map<String, String> metadata) {
+    public BeatInfo setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
+        return this;
     }
 
     public boolean isScheduled() {
         return scheduled;
     }
 
-    public void setScheduled(boolean scheduled) {
+    public BeatInfo setScheduled(boolean scheduled) {
         this.scheduled = scheduled;
+        return this;
     }
 
     public long getPeriod() {
         return period;
     }
 
-    public void setPeriod(long period) {
+    public BeatInfo setPeriod(long period) {
         this.period = period;
+        return this;
     }
 
     public boolean isStopped() {
         return stopped;
     }
 
-    public void setStopped(boolean stopped) {
+    public BeatInfo setStopped(boolean stopped) {
         this.stopped = stopped;
+        return this;
     }
 
     @Override

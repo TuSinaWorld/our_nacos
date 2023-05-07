@@ -4,16 +4,23 @@ import com.our_nacos.client.beat.BeatInfo;
 
 public abstract class BeatSend {
 
-    private BeatInfo beatInfo;
+    protected BeatInfo beatInfo;
+
     //TODO:从配置文件获取ourNacos服务ip
-    private String serverIp;
+    protected String serverIp = "127.0.0.1";
+
     //TODO:从配置文件获取ourNacos服务端口
-    private Integer serverPort;
+    protected Integer serverPort = 25544;
 
     public BeatSend(){}
     public BeatSend(BeatInfo beatInfo){
         this.beatInfo = beatInfo;
     }
+    public BeatSend setBeatInfo(BeatInfo beatInfo) {
+        this.beatInfo = beatInfo;
+        return this;
+    }
 
+    //TODO:回传信息
     public abstract void send();
 }

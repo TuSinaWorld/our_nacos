@@ -1,7 +1,11 @@
 package com.our_nacos.client.beat;
 
+import com.our_nacos.client.beat.beat_send.BeatSend;
+import com.our_nacos.client.beat.beat_send.SocketBeatSend;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.exception.NullBeatInfoException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +16,11 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class BeatReactorImpl implements BeatReactor {
+
+    //TODO:除Socket外新增发送方式
+    BeatSend beatSend = new SocketBeatSend();
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     //存放详细beat信息的map
     //格式:服务名+分割常量+ip+分隔常量+端口
@@ -42,7 +51,7 @@ public class BeatReactorImpl implements BeatReactor {
             throw new NullPointerException("传入beatInfo为空!");
         }
         beatDetailedInfo.put(buildKey(beatInfo),beatInfo);
-        executorService.schedule(new BeatTask(beatInfo),beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
+        executorService.schedule(new BeatTask(beatInfo,beatSend),beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
         return this;
     }
 
@@ -90,20 +99,27 @@ public class BeatReactorImpl implements BeatReactor {
 
     private class BeatTask implements Runnable{
 
-        private BeatInfo beatInfo;
+        private final BeatInfo beatInfo;
+        private final BeatSend beatSend;
 
-        public BeatTask(BeatInfo beatInfo){
+        public BeatTask(BeatInfo beatInfo, BeatSend beatSend){
             if(beatInfo == null){
                 throw new NullPointerException("传入beatInfo为空!");
+            }else if(beatSend == null){
+                throw new NullPointerException("传入beatSend为空!");
             }
             this.beatInfo = beatInfo;
+            this.beatSend = beatSend.setBeatInfo(beatInfo);
         }
         @Override
         public void run() {
-            if(beatInfo.isStopped()){
-                return;
+            try {
+                beatSend.send();
+            }catch(Exception e){
+                logger.error("未知的错误:",e);
+            }finally {
+                executorService.schedule(new BeatTask(beatInfo,beatSend),beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
             }
-
         }
     }
 

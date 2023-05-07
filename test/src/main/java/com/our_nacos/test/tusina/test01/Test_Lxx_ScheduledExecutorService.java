@@ -9,7 +9,7 @@ public class Test_Lxx_ScheduledExecutorService {
 
     public static ScheduledExecutorService executorService;
     public static void main(String[] args) {
-        executorService = new ScheduledThreadPoolExecutor(16, r -> {
+        executorService = new ScheduledThreadPoolExecutor(24, r -> {
             Thread thread = new Thread(r);
             thread.setDaemon(false);
             thread.setName("mytask");

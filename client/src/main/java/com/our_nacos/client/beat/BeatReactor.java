@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface BeatReactor {
     //增加新的实例
-    BeatReactor addBeat(BeatInfo beatInfo);
+    BeatReactor addBeatInfo(BeatInfo beatInfo);
     //获取包含完整键名的BeatInfo
     BeatInfo getBeatInfo0WithAllName(String serverInfo);
     //根据服务名获取BeatInfo数组
@@ -12,5 +12,4 @@ public interface BeatReactor {
     //获取BeatInfo集合
     Map<String,BeatInfo> getBeatInfos();
     BeatReactor clearBeatInfo();
-    Runnable getBeatTask(BeatInfo beatInfo);
 }

@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class BeatReactorImpl implements BeatReactor {
 
@@ -36,11 +37,12 @@ public class BeatReactorImpl implements BeatReactor {
     }
 
     @Override
-    public BeatReactor addBeat(BeatInfo beatInfo) {
+    public BeatReactor addBeatInfo(BeatInfo beatInfo) {
         if(beatInfo == null){
             throw new NullPointerException("传入beatInfo为空!");
         }
         beatDetailedInfo.put(buildKey(beatInfo),beatInfo);
+        executorService.schedule(new BeatTask(beatInfo),beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
         return this;
     }
 
@@ -85,16 +87,12 @@ public class BeatReactorImpl implements BeatReactor {
                 + beatInfo.getIp() + Constants.SEPARATE_NAME_ATTRIBUTE
                 + beatInfo.getPort();
     }
-    @Override
-    public Runnable getBeatTask(BeatInfo beatInfo) {
-        return new RunTask(beatInfo);
-    }
 
-    class RunTask implements Runnable{
+    private class BeatTask implements Runnable{
 
         private BeatInfo beatInfo;
 
-        public RunTask(BeatInfo beatInfo){
+        public BeatTask(BeatInfo beatInfo){
             if(beatInfo == null){
                 throw new NullPointerException("传入beatInfo为空!");
             }
@@ -105,7 +103,7 @@ public class BeatReactorImpl implements BeatReactor {
             if(beatInfo.isStopped()){
                 return;
             }
-            long period = beatInfo.getPeriod();
+
         }
     }
 

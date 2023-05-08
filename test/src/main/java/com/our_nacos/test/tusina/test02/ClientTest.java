@@ -1,6 +1,9 @@
 package com.our_nacos.test.tusina.test02;
 
 import com.alibaba.fastjson.JSON;
+import com.our_nacos.client.beat.BeatInfo;
+import com.our_nacos.client.beat.BeatReactor;
+import com.our_nacos.client.beat.BeatReactorImpl;
 
 import java.io.*;
 import java.net.Socket;
@@ -9,15 +12,11 @@ import java.nio.charset.StandardCharsets;
 
 public class ClientTest {
 
-    public static void main(String[] args) throws IOException {
-        BeatInfoTest beatInfoTest = new BeatInfoTest();
-        beatInfoTest.setIp(String.valueOf(InetAddress.getLocalHost().getHostAddress()));
-        beatInfoTest.setPort(2201);
-        String jsonString = JSON.toJSONString(beatInfoTest);
-        Socket socket = new Socket("127.0.0.1",25544);
-        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8);
-        outputStreamWriter.write(jsonString);
-        outputStreamWriter.close();
-        socket.close();
+    public static void main(String[] args) throws IOException, InterruptedException {
+        BeatReactor beatReactor = new BeatReactorImpl();
+        beatReactor.addBeatInfo(new BeatInfo()
+                .setIp("123.456.789").setPort(25522)
+                .setServiceName("aServer"));
+        Thread.sleep(20000);
     }
 }

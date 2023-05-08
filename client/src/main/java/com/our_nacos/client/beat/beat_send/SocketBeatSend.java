@@ -7,6 +7,7 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 
+//使用Socket发包方法
 public class SocketBeatSend extends BeatSend{
     @Override
     public void send() {

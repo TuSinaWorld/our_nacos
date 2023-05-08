@@ -1,0 +1,3 @@
+server:
+  port: ${port:25544}
+

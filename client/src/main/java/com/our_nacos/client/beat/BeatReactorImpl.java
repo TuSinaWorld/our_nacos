@@ -1,7 +1,7 @@
 package com.our_nacos.client.beat;
 
 import com.our_nacos.client.beat.beat_send.BeatSend;
-import com.our_nacos.client.beat.beat_send.SocketBeatSend;
+import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.exception.NullBeatInfoException;
 import org.slf4j.Logger;
@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BeatReactorImpl implements BeatReactor {
 
-    //TODO:除Socket外新增发送方式
-    BeatSend beatSend = new SocketBeatSend();
+    //TODO:新增发送方式
+    BeatSend beatSend = new RestTemplateSend();
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 

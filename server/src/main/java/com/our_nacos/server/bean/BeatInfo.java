@@ -6,6 +6,7 @@ import java.util.Map;
 /*
 这个类的作用为保存心跳信息
  */
+//注释请参考client中同名类
 public class BeatInfo {
 
     public BeatInfo() {
@@ -15,24 +16,19 @@ public class BeatInfo {
 
     private String ip;
 
-    //TODO:权重
     private double weight = 1;
 
     private String serviceName;
 
-    //TODO:服务集群
     private String cluster = null;
 
-    //TODO:服务元数据
     private Map<String, String> metadata = null;
 
-    //TODO:判断是否加入心跳计时器
     private volatile boolean scheduled = false;
 
     //心跳间隔时间(ms)
     private volatile long period = 5000;
 
-    //TODO:根据心跳信息判断服务是否停止
     private volatile boolean stopped = false;
 
     public int getPort() {

@@ -1,5 +1,6 @@
 package com.our_nacos.server.bean;
 
+//注释请参考client中同名类
 public class ResponseBean {
     private Integer code;
     private String msg;

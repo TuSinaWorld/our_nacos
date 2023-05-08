@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/beat")
-public class SpringServerTest {
+public class SpringServer {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 

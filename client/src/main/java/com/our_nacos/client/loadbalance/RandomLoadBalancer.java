@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
+
+//TODO:自动配置,托管条件
 @Component
 public class RandomLoadBalancer  {
 
@@ -15,7 +17,7 @@ public class RandomLoadBalancer  {
         Random random=new Random();
         int index = random.nextInt(serverCount);
         BeatInfo beatInfo = beatInfos.get(index);
-        if(beatInfo.isStopped()==false){
+        if(!beatInfo.isStopped()){
             throw new RuntimeException("此服务已关闭");
         }
         //RestTemplate中url 第一种写法

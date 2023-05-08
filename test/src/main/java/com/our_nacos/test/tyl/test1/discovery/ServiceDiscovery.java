@@ -1,4 +1,4 @@
-package com.our_nacos.client.discovery;
+package com.our_nacos.test.tyl.test1.discovery;
 
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;
@@ -16,7 +16,7 @@ public class ServiceDiscovery {
         PollingLoadBalancer polling=new PollingLoadBalancer();
         RandomLoadBalancer random=new RandomLoadBalancer();
 
-        Map<String, List<BeatInfo>> map=new HashMap<String,List<BeatInfo>>();
+        Map<String, List<BeatInfo>> map= new HashMap<>();
         List<BeatInfo> list1=new ArrayList<>();
         List<BeatInfo> list2=new ArrayList<>();
 

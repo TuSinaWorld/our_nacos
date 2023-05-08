@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 //简单版
+//TODO:自动配置,托管条件
 @Component
 public class PollingLoadBalancer  {
 //    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
@@ -26,7 +27,7 @@ public class PollingLoadBalancer  {
        int serverCount=beatInfos.size();
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
-       if(beatInfo.isStopped()==false){
+       if(!beatInfo.isStopped()){
            throw new RuntimeException("此服务已关闭");
        }
 //       http://localhost:8080/

@@ -1,8 +1,9 @@
-package com.our_nacos.client.Loadbalance;
+package com.our_nacos.client.loadbalance;
 
 import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.exception.NullBeatInfoException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 //简单版
+@Component
 public class PollingLoadBalancer {
 //    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
@@ -24,6 +26,9 @@ public class PollingLoadBalancer {
        int serverCount=beatInfos.size();
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
+       if(beatInfo.isStopped()==false){
+           throw new RuntimeException("此服务已关闭");
+       }
 //       http://localhost:8080/
 //       http://namespace/
        //RestTemplate中url 第一种写法

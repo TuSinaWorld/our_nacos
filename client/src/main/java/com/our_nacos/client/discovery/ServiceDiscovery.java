@@ -1,7 +1,7 @@
-package com.our_nacos.client.Discovery;
+package com.our_nacos.client.discovery;
 
-import com.our_nacos.client.Loadbalance.PollingLoadBalancer;
-import com.our_nacos.client.Loadbalance.RandomLoadBalancer;
+import com.our_nacos.client.loadbalance.PollingLoadBalancer;
+import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import com.our_nacos.client.beat.BeatInfo;
 
 import java.util.ArrayList;

@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 @Component
-public class RandomLoadBalancer {
+public class RandomLoadBalancer  {
 
     public String random(List< BeatInfo > beatInfos){
         int serverCount= beatInfos.size();

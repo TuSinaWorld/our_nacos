@@ -13,7 +13,7 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 //简单版
 @Component
-public class PollingLoadBalancer {
+public class PollingLoadBalancer  {
 //    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
     @Autowired

@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServiceDiscovery {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
          AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
         PollingLoadBalancer polling=new PollingLoadBalancer();
         RandomLoadBalancer random=new RandomLoadBalancer();

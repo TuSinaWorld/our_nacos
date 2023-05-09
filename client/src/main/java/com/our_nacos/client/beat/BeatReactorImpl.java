@@ -1,11 +1,11 @@
 package com.our_nacos.client.beat;
 
 import com.our_nacos.client.beat.beat_send.BeatSend;
-import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.exception.NullBeatInfoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,9 @@ public class BeatReactorImpl implements BeatReactor {
 
     //TODO:新增发送方式
     //默认采用RestTemplate发包
-    BeatSend beatSend = new RestTemplateSend();
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    BeatSend beatSend;
     //日志信息
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -32,8 +34,10 @@ public class BeatReactorImpl implements BeatReactor {
     //TODO:从配置文件中自定义线程数
     private int threadCount = 16;
 
-    public void setThreadCount(int threadCount) {
+    @Override
+    public BeatReactor setThreadCount(int threadCount) {
         this.threadCount = threadCount;
+        return this;
     }
 
     //初始化时创建线程池API

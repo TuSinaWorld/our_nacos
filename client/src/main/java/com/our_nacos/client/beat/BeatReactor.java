@@ -3,6 +3,8 @@ package com.our_nacos.client.beat;
 import java.util.Map;
 
 public interface BeatReactor {
+
+    BeatReactor setThreadCount(int threadCount);
     //增加新的实例
     BeatReactor addBeatInfo(BeatInfo beatInfo);
     //获取包含完整键名的BeatInfo

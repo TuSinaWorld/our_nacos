@@ -3,13 +3,16 @@ package com.our_nacos.client.beat.beat_send;
 import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.common.ResponseBean;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 
 //使用成熟框架RestTemplate发包
 public class RestTemplateSend extends BeatSend{
-    RestTemplate restTemplate;
+
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
+    @Autowired
+    MyRestTemplate myRestTemplate;
 
     //目标url
     private final String url;
@@ -17,14 +20,12 @@ public class RestTemplateSend extends BeatSend{
     //调用无参抽象构造方法同时新建RestTemplate并拼接url
     public RestTemplateSend(){
         super();
-        restTemplate = new RestTemplate();
         url = getUrl();
     }
 
     //调用带参抽象构造方法同时新建RestTemplate并拼接url
     public RestTemplateSend(BeatInfo beatInfo){
         super(beatInfo);
-        restTemplate = new RestTemplate();
         url = getUrl();
     }
 
@@ -33,7 +34,7 @@ public class RestTemplateSend extends BeatSend{
         ResponseBean responseBean = null;
         try {
             //向指定url发送心跳信息,接收为ResponseBean
-            responseBean = restTemplate.postForObject(url, beatInfo, ResponseBean.class);
+            responseBean = myRestTemplate.postForObject(url, beatInfo, ResponseBean.class);
         }catch (Exception e){
             throw new RuntimeException("发送心跳时出现错误:",e);
         }

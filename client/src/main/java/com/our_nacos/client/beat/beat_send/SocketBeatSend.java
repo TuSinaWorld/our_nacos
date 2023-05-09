@@ -1,7 +1,5 @@
 package com.our_nacos.client.beat.beat_send;
 
-import com.alibaba.fastjson.JSON;
-
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
@@ -14,8 +12,9 @@ public class SocketBeatSend extends BeatSend{
         Socket socket = null;
         OutputStreamWriter outputStreamWriter = null;
         try {
-            //将心跳对象转为字符串
-            String jsonString = JSON.toJSONString(beatInfo);
+            //TODO:将心跳对象转为字符串
+//            String jsonString = JSON.toJSONString(beatInfo);
+            String jsonString = "";
             //根据ip和端口新建Socket
             socket = new Socket(serverIp,serverPort);
             //获取输出流

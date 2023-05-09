@@ -30,9 +30,10 @@ public class BeatInfo {
     private volatile boolean scheduled = false;
 
     //心跳间隔时间(ms)
+    //TODO:根据配置文件获取心跳间隔时间
     private volatile long period = 5000;
 
-    //TODO:根据心跳信息判断服务是否停止
+    //判断心跳是否停止
     private volatile boolean stopped = false;
 
     public int getPort() {

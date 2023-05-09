@@ -8,7 +8,9 @@ import com.our_nacos.client.beat.beat_send.MyRestTemplate;
 import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.exception.NoDependence;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,7 @@ public class BeatAutoConfig {
     @Configuration(proxyBeanMethods = false)
     @AutoConfigureAfter(SpringMvcMissingFromClasspathConfiguration.class)
     @ConditionalOnClass(name = "org.springframework.web.servlet.DispatcherServlet")
+    @ConditionalOnMissingBean(MyRestTemplate.class)
     protected static class LoadNetwork{
         //TODO:按需加载对应依赖
         @Bean

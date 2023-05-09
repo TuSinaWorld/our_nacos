@@ -171,5 +171,4 @@ public class BeatReactorImpl implements BeatReactor {
             }
         }
     }
-
 }

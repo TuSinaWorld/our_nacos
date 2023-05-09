@@ -193,7 +193,11 @@ public class NacosDiscoveryProperties {
         this.port = port;
     }
 
-    public int getPort() {this.port = serverport.getPort();return port;}
+    public int getPort() {
+        //TODO:请检查这段注入代码正确性...
+//        this.port = serverport.getPort();
+        return port;
+    }
 
     public Map<String, String> getMetadata() {
         return metadata;

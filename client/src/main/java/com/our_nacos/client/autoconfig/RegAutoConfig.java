@@ -15,13 +15,16 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 @Configuration
 @AutoConfigureAfter(BeatAutoConfig.class)
+@Order(0)
 public class RegAutoConfig {
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnClass(name = "org.springframework.web.servlet.DispatcherServlet")
+    @Order(1)
     protected static class LoadRegSend{
         //TODO:根据配置文件加载对应类
         @Bean
@@ -31,7 +34,8 @@ public class RegAutoConfig {
     }
 
     @Configuration(proxyBeanMethods = false)
-    @AutoConfigureAfter(BeatAutoConfig.LoadBeatSend.class)
+    @AutoConfigureAfter(LoadRegSend.class)
+    @Order(1)
     @ConditionalOnClass(name = "org.springframework.web.servlet.DispatcherServlet")
     protected static class LoadRegReactor{
         //TODO:新增更多同实现类并根据选择托管相应类

@@ -195,7 +195,7 @@ public class NacosDiscoveryProperties {
 
     public int getPort() {
         //TODO:请检查这段注入代码正确性...
-//        this.port = serverport.getPort();
+        this.port = serverport.getPort();
         return port;
     }
 

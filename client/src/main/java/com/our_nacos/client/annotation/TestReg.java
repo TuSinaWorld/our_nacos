@@ -9,15 +9,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 public class TestReg {
     @Autowired
-    RegReactor regReactor;
-    @Autowired
-    NacosDiscoveryProperties nacosDiscoveryProperties;
-    public TestReg(){
-
-    }
-
-    @Autowired
-    public void sout() {
+    public void sout(@Autowired RegReactor regReactor,
+                     @Autowired NacosDiscoveryProperties nacosDiscoveryProperties) {
         regReactor.addReg(nacosDiscoveryProperties);
     }
 

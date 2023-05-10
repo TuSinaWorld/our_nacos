@@ -1,18 +1,13 @@
 package com.our_nacos.client.reg;
 
 import com.our_nacos.client.adapter.BeatInfoAdapterNacosDiscoveryProperties;
-import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.beat.BeatReactor;
-import com.our_nacos.client.beat.BeatReactorImpl;
-import com.our_nacos.client.beat.beat_send.BeatSend;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.reg.reg_send.RegSend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -99,8 +94,8 @@ public class RegReactorImpl implements RegReactor {
                     //发送销毁信息
                     regSend.revocationRegInfo();
                 }
+                //执行心跳增加流程
                 beatReactor.addBeatInfo(new BeatInfoAdapterNacosDiscoveryProperties(nacosDiscoveryProperties));
-                //重新获取最新心跳信息
             }catch(Exception e){
                 //发包时异常不影响线程运行,只做记录
                 throw new RuntimeException("注册实例时发生未知的错误:",e);

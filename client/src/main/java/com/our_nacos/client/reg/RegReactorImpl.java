@@ -97,7 +97,7 @@ public class RegReactorImpl implements RegReactor {
                 //执行心跳增加流程
                 beatReactor.addBeatInfo(new BeatInfoAdapterNacosDiscoveryProperties(nacosDiscoveryProperties));
             }catch(Exception e){
-                //发包时异常不影响线程运行,只做记录
+                //注册时异常将抛出异常
                 throw new RuntimeException("注册实例时发生未知的错误:",e);
             }
         }

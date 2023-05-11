@@ -22,7 +22,6 @@ public class NacosRegAuto extends Mylistener {
     @Autowired
     Instance instance;
 
-    @Autowired
     RegProxy regProxy;
 
     @Override
@@ -41,10 +40,12 @@ public class NacosRegAuto extends Mylistener {
 
         try {
             // 开始注册服务
-
+            regProxy.register(this.instance.getNacosDiscoveryProperties());
+            System.out.println("服务注册成功......");
         }
         catch (Exception e) {
-
+            System.out.println("服务注册失败......");
+            e.printStackTrace();
         }
     }
 }

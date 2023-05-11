@@ -53,7 +53,6 @@ public class NacosDiscoveryProperties {
     /**
      * 服务注册名
      */
-    @Value("${my.nacos.discovery.service:${my.application.name:}}")
     private String service;
 
     /**

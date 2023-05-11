@@ -17,6 +17,7 @@ public class RegProxy {
         beatInfo.setPort(nacosDiscoveryProperties.getPort());
         beatInfo.setCluster(nacosDiscoveryProperties.getClusterName());
         beatInfo.setServiceName(nacosDiscoveryProperties.getServerAddr());
+
         return false;
 
     }

@@ -5,12 +5,14 @@ import com.our_nacos.client.beat.BeatReactorImpl;
 import com.our_nacos.client.beat.beat_send.BeatSend;
 import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.exception.NoDependence;
+import com.our_nacos.client.reg.Instance;
 import com.our_nacos.client.reg.NacosDiscoveryProperties;
 import com.our_nacos.client.reg.RegReactor;
 import com.our_nacos.client.reg.RegReactorImpl;
 import com.our_nacos.client.reg.reg_send.RegSend;
 import com.our_nacos.client.reg.reg_send.RestTemplateRegSend;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
@@ -39,5 +41,15 @@ public class RegAutoConfig {
         public RegReactor regReactor(){
             return new RegReactorImpl();
         }
+    }
+
+    @Bean
+    @ConditionalOnBean({NacosDiscoveryProperties.class, Instance.class})
+    public NacosRegAuto nacosRegAuto(){
+        return new NacosRegAuto();
+    }
+    @Bean
+    public Instance instance(){
+        return new Instance();
     }
 }

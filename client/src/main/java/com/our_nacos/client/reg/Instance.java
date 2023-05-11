@@ -1,21 +1,29 @@
 package com.our_nacos.client.reg;
 
 import com.our_nacos.client.reg.util.InetAddressUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 /**
  * @Author: 乐哥
- * @Date: 2023/5/9
- * @Time: 22:32
- * @Description:
+ * @Date: 2023/5/10
+ * @Time: 18:02
+ * @Description:  进行实例信息整合
  */
+@ConfigurationProperties(prefix = "my.nacos.discovery")
+@AutoConfigureAfter(Serverport.class)
+@Component
+public class Instance {
 
-public class NacosDiscoveryProperties {
+    static NacosDiscoveryProperties nacosDiscoveryProperties=new NacosDiscoveryProperties();
+    @Autowired
+    Serverport serverport;
 
     /**
      * nacos客户端的地址
@@ -99,8 +107,7 @@ public class NacosDiscoveryProperties {
      */
     private int port = -1;
 
-
-    private boolean isEnabled;
+    private boolean isEnabled=true;
 
     public boolean isEnabled() {
         return isEnabled;
@@ -108,6 +115,30 @@ public class NacosDiscoveryProperties {
 
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
+    }
+
+    public String getServerAddr() {
+        return serverAddr;
+    }
+
+    public void setServerAddr(String serverAddr) {
+        this.serverAddr = serverAddr;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getEndpoint() {
@@ -126,6 +157,14 @@ public class NacosDiscoveryProperties {
         this.namespace = namespace;
     }
 
+    public long getWatchDelay() {
+        return watchDelay;
+    }
+
+    public void setWatchDelay(long watchDelay) {
+        this.watchDelay = watchDelay;
+    }
+
     public String getLogName() {
         return logName;
     }
@@ -134,6 +173,13 @@ public class NacosDiscoveryProperties {
         this.logName = logName;
     }
 
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
 
     public float getWeight() {
         return weight;
@@ -151,12 +197,20 @@ public class NacosDiscoveryProperties {
         this.clusterName = clusterName;
     }
 
-    public String getService() {
-        return service;
+    public String getGroup() {
+        return group;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
     public boolean isRegisterEnabled() {
@@ -183,104 +237,26 @@ public class NacosDiscoveryProperties {
         this.networkInterface = networkInterface;
     }
 
+    public int getPort() {
+        return port;
+    }
+
     public void setPort(int port) {
         this.port = port;
     }
 
-    public int getPort() {
-        //TODO:请检查这段注入代码正确性...
-//        this.port = serverport.getPort();
-        return port;
+    public NacosDiscoveryProperties getNacosDiscoveryProperties() {
+        nacosDiscoveryProperties.setPort(serverport.getPort());
+        nacosDiscoveryProperties.setIp(getIp());
+        nacosDiscoveryProperties.setGroup(getGroup());
+        nacosDiscoveryProperties.setMetadata(getMetadata());
+        nacosDiscoveryProperties.setEndpoint(getEndpoint());
+        nacosDiscoveryProperties.setNamespace(getNamespace());
+        nacosDiscoveryProperties.setNamespace(getNamespace());
+        nacosDiscoveryProperties.setLogName(getLogName());
+        nacosDiscoveryProperties.setNetworkInterface(getNetworkInterface());
+        nacosDiscoveryProperties.setEnabled(isEnabled());//是否启用
+        return nacosDiscoveryProperties;
     }
 
-    public Map<String, String> getMetadata() {
-        return metadata;
-    }
-
-    public void setMetadata(Map<String, String> metadata) {
-        this.metadata = metadata;
-    }
-
-    public String getServerAddr() {
-        return serverAddr;
-    }
-
-    public void setServerAddr(String serverAddr) {
-        this.serverAddr = serverAddr;
-    }
-
-
-    public long getWatchDelay() {
-        return watchDelay;
-    }
-
-    public void setWatchDelay(long watchDelay) {
-        this.watchDelay = watchDelay;
-    }
-
-    public String getGroup() {
-        return group;
-    }
-
-    public void setGroup(String group) {
-        this.group = group;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        NacosDiscoveryProperties that = (NacosDiscoveryProperties) o;
-        return Objects.equals(serverAddr, that.serverAddr)
-                && Objects.equals(username, that.username)
-                && Objects.equals(password, that.password)
-                && Objects.equals(endpoint, that.endpoint)
-                && Objects.equals(namespace, that.namespace)
-                && Objects.equals(logName, that.logName)
-                && Objects.equals(service, that.service)
-                && Objects.equals(clusterName, that.clusterName)
-                && Objects.equals(group, that.group) && Objects.equals(ip, that.ip)
-                && Objects.equals(port, that.port)
-                && Objects.equals(networkInterface, that.networkInterface);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(serverAddr, username, password, endpoint, namespace,
-                watchDelay, logName, service, weight, clusterName, group,
-                registerEnabled, ip, networkInterface, port);
-    }
-
-    @Override
-    public String toString() {
-        return "NacosDiscoveryProperties{" + "serverAddr='" + serverAddr + '\''
-                + ", endpoint='" + endpoint + '\'' + ", namespace='" + namespace + '\''
-                + ", watchDelay=" + watchDelay + ", logName='" + logName + '\''
-                + ", service='" + service + '\'' + ", weight=" + weight
-                + ", clusterName='" + clusterName + '\'' + ", group='" + group + '\''
-                + ", metadata=" + metadata + ", registerEnabled=" + registerEnabled
-                + ", ip='" + ip + '\'' + ", networkInterface='" + networkInterface + '\''
-                + ", port=" + getPort() + '}';
-    }
 }

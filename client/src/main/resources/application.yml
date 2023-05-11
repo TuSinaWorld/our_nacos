@@ -1,0 +1,16 @@
+server:
+  port: 8082
+my:
+  nacos:
+    discovery:
+      serverAddr: localhost:8848
+      username: nacos
+      password: nacos
+      namespace: prod
+  application:
+    name: res-food
+user:
+  name: 123
+  password: asd
+
+

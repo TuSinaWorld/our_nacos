@@ -1,4 +1,4 @@
-package com.our_nacos.client.reg;
+package com.our_nacos.client.reg.util;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;

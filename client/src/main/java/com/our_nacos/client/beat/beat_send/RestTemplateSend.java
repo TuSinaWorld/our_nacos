@@ -2,6 +2,7 @@ package com.our_nacos.client.beat.beat_send;
 
 import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.common.Constants;
+import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.common.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 

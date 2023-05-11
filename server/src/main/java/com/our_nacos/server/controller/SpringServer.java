@@ -1,6 +1,7 @@
 package com.our_nacos.server.controller;
 
 import com.our_nacos.server.bean.BeatInfo;
+import com.our_nacos.server.bean.NacosDiscoveryProperties;
 import com.our_nacos.server.bean.ResponseBean;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,10 +15,16 @@ public class SpringServer {
 
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    //新增方法
     @RequestMapping("/accept")
     public ResponseBean accept(@RequestBody BeatInfo beatInfo){
         //TODO:根据心跳注册服务,维持服务等等.
         logger.info(String.valueOf(beatInfo));
-        return new ResponseBean(1,"",beatInfo);
+        return new ResponseBean(1,"",null);
+    }
+
+    @RequestMapping("/reg")
+    public ResponseBean reg(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
+        return new ResponseBean(1,"",null);
     }
 }

@@ -4,7 +4,7 @@ package com.our_nacos.client.autoconfig;
 import com.our_nacos.client.beat.BeatReactor;
 import com.our_nacos.client.beat.BeatReactorImpl;
 import com.our_nacos.client.beat.beat_send.BeatSend;
-import com.our_nacos.client.beat.beat_send.MyRestTemplate;
+import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.exception.NoDependence;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

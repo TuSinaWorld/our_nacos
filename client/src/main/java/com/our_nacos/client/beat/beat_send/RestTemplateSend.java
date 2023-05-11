@@ -32,7 +32,7 @@ public class RestTemplateSend extends BeatSend{
 
     @Override
     public void send() {
-        ResponseBean responseBean = null;
+        ResponseBean responseBean;
         try {
             //向指定url发送心跳信息,接收为ResponseBean
             responseBean = myRestTemplate.postForObject(url, beatInfo, ResponseBean.class);

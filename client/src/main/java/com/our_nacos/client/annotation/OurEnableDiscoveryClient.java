@@ -1,6 +1,7 @@
 package com.our_nacos.client.annotation;
 
 
+import com.our_nacos.client.EnableDiscoveryImportSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -10,7 +11,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 //TODO:请在@Import类中写入需要自动配置类
-@Import({TestReg.class})
+@Import(EnableDiscoveryImportSelector.class)
 public @interface OurEnableDiscoveryClient {
-
+    boolean autoregister() default true;
 }

@@ -24,7 +24,7 @@ import java.util.Map;
 public class EnableDiscoveryImportSelector implements ImportSelector {
     @Override
     public String[] selectImports(AnnotationMetadata metadata) {
-        String[] imports = {""};
+        String[] imports = new String[]{""};
         String mainClassName = System.getProperty("sun.java.command");
         try {
             Class<?> clazz = Class.forName(mainClassName);
@@ -37,14 +37,11 @@ public class EnableDiscoveryImportSelector implements ImportSelector {
                 imports = new String[] {NacosRegAuto.class.getName()};
             } else {
                 System.out.println("未启用服务发现功能.....");
-
             }
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("未启用服务发现功能.....");
         }
-
         return imports;
-
     }
 
 }

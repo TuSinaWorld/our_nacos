@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 
 public abstract class RegSend {
     Logger log = LoggerFactory.getLogger(RegSend.class);
-    private NacosDiscoveryProperties nacosDiscoveryProperties;
-    //TODO:配置文件获取~
-    private String serverIp = "127.0.0.1";
-    private Integer serverPort = 25544;
+    protected NacosDiscoveryProperties nacosDiscoveryProperties;
+    //TODO: 根据配置文件获取~
+    protected String serverIp = "127.0.0.1";
+    protected Integer serverPort = 25544;
 
     public RegSend() {
     }

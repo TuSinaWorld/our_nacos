@@ -1,4 +1,4 @@
-package com.our_nacos.client.beat.beat_send;
+package com.our_nacos.client.common;
 
 import org.springframework.web.client.RestTemplate;
 

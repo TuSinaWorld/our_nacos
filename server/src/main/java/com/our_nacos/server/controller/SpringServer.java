@@ -27,4 +27,9 @@ public class SpringServer {
     public ResponseBean reg(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
         return new ResponseBean(1,"",null);
     }
+
+    @RequestMapping("/remove")
+    public ResponseBean remove(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
+        return null;
+    }
 }

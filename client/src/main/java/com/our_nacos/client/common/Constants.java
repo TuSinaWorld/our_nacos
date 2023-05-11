@@ -15,4 +15,6 @@ public class Constants {
      public static final String SEPARATE_IP_PORT = ":";
      //注册实例后缀
      public static final String REST_TEMPLATE_REG_SEND_SUFFIX = "/beat/reg";
+     //销毁实例后缀
+    public static final String REST_TEMPLATE_REMOVE_SEND_SUFFIX = "/beat/remove";
 }

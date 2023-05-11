@@ -17,13 +17,16 @@ import java.util.Map;
  * @Description:  进行实例信息整合
  */
 @ConfigurationProperties(prefix = "my.nacos.discovery")
-@AutoConfigureAfter(Serverport.class)
+@AutoConfigureAfter({Serverport.class,NacosDiscoveryProperties.class})
 @Component
 public class Instance {
 
     static NacosDiscoveryProperties nacosDiscoveryProperties=new NacosDiscoveryProperties();
     @Autowired
     Serverport serverport;
+
+    public Instance() {
+    }
 
     /**
      * nacos客户端的地址
@@ -248,12 +251,16 @@ public class Instance {
     public NacosDiscoveryProperties getNacosDiscoveryProperties() {
         nacosDiscoveryProperties.setPort(serverport.getPort());
         nacosDiscoveryProperties.setIp(getIp());
+        nacosDiscoveryProperties.setUsername(getUsername());
+        nacosDiscoveryProperties.setPassword(getPassword());
+        nacosDiscoveryProperties.setServerAddr(getServerAddr());
         nacosDiscoveryProperties.setGroup(getGroup());
         nacosDiscoveryProperties.setMetadata(getMetadata());
         nacosDiscoveryProperties.setEndpoint(getEndpoint());
         nacosDiscoveryProperties.setNamespace(getNamespace());
         nacosDiscoveryProperties.setNamespace(getNamespace());
         nacosDiscoveryProperties.setLogName(getLogName());
+        nacosDiscoveryProperties.setService(getService());
         nacosDiscoveryProperties.setNetworkInterface(getNetworkInterface());
         nacosDiscoveryProperties.setEnabled(isEnabled());//是否启用
         return nacosDiscoveryProperties;

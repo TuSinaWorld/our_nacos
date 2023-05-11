@@ -2,7 +2,6 @@ package com.our_nacos.test.tusina.test01;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
 public class Test_Lxx_ScheduledExecutorService {

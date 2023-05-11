@@ -8,7 +8,6 @@ import com.our_nacos.client.beat.beat_send.MyRestTemplate;
 import com.our_nacos.client.beat.beat_send.RestTemplateSend;
 import com.our_nacos.client.exception.NoDependence;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;

@@ -1,14 +1,10 @@
-package com.our_nacos.client.autoconfig;
+package com.our_nacos.client.reg;
 
 import com.our_nacos.client.listener.Mylistener;
 import com.our_nacos.client.reg.Instance;
 import com.our_nacos.client.reg.RegProxy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
-
-import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
 
 /**
  * @Author: 乐哥
@@ -19,28 +15,24 @@ import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
 
 public class NacosRegAuto extends Mylistener {
 
-    @Autowired
-    Instance instance;
-
-    RegProxy regProxy;
-
+    static RegProxy regProxy = new RegProxy();
     @Override
-    public void register(Integer port) {
-        if (!this.instance.getNacosDiscoveryProperties().isEnabled()) {
+    public void register(NacosDiscoveryProperties nacosDiscoveryProperties,Integer port) {
+        if (!nacosDiscoveryProperties.isEnabled()) {
             System.out.println("注册未开启.......");
             return;
         }
-        if (this.instance.getPort() < 0) {
-            this.instance.setPort(port);
+        if (nacosDiscoveryProperties.getPort() < 0) {
+            nacosDiscoveryProperties.setPort(port);
         }
-        if (StringUtils.isEmpty(this.instance.getNacosDiscoveryProperties().getService())) {
+        if (nacosDiscoveryProperties.getService()==null) {
             System.out.println("没有服务注册在nacos客户端上......");
             return;
         }
 
         try {
             // 开始注册服务
-            regProxy.register(this.instance.getNacosDiscoveryProperties());
+            regProxy.register(nacosDiscoveryProperties);
             System.out.println("服务注册成功......");
         }
         catch (Exception e) {

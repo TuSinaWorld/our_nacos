@@ -1,13 +1,14 @@
 package com.our_nacos.client.listener;
 
-import com.our_nacos.client.autoconfig.NacosRegAuto;
+import com.our_nacos.client.reg.NacosRegAuto;
 import com.our_nacos.client.reg.Instance;
 import com.our_nacos.client.reg.NacosDiscoveryProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-import org.springframework.web.WebApplicationInitializer;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: 乐哥
@@ -23,29 +24,27 @@ public abstract class Mylistener implements ApplicationListener<WebServerInitial
     @Autowired
     Instance instance;
 
-    @Autowired
-    NacosRegAuto nacosRegAuto;
+//    @Autowired
+//    NacosRegAuto nacosRegAuto;
 
-    NacosDiscoveryProperties nacosDiscoveryProperties = instance.getNacosDiscoveryProperties();
 
     public boolean isEnable() {
-        return nacosDiscoveryProperties.isEnabled();
+        return true;
     }
 
     public void setEnable(boolean enable) {
         isEnable = enable;
     }
 
-    protected void register(Integer port) {
-        this.register(port);
-    }
+    protected abstract void register(NacosDiscoveryProperties nacosDiscoveryProperties,Integer port);
 
     @Override
     public void onApplicationEvent(WebServerInitializedEvent event) {
+        NacosDiscoveryProperties nacosDiscoveryProperties = instance.getNacosDiscoveryProperties();
         if(!isEnable()){
             System.out.println("服务配置未启用....");
             return;
         }
-        nacosRegAuto.register(event.getWebServer().getPort());
+        this.register(nacosDiscoveryProperties,event.getWebServer().getPort());
     }
 }

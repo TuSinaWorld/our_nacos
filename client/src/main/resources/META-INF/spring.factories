@@ -1,1 +1,1 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.our_nacos.autoconfig.RegAutoConfig
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.our_nacos.client.reg.NacosRegAuto

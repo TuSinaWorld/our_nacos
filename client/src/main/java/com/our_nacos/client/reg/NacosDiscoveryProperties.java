@@ -1,12 +1,10 @@
 package com.our_nacos.client.reg;
 
-import com.our_nacos.client.reg.util.InetAddressUtil;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 /**
  * @Author: 乐哥
@@ -86,7 +84,7 @@ public class NacosDiscoveryProperties {
     /**
      * 要为服务实例注册的 IP 地址，通过工具类得出获取主机ip
      */
-    private String ip = InetAddressUtil.getHostIp();
+    private String ip ="0.0.0.0";
 
     /**
      * 要注册的网络接口的 IP。

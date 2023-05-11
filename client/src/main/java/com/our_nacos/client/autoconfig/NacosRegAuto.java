@@ -2,10 +2,13 @@ package com.our_nacos.client.autoconfig;
 
 import com.our_nacos.client.listener.Mylistener;
 import com.our_nacos.client.reg.Instance;
+import com.our_nacos.client.reg.RegProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
+
+import static org.springframework.util.ReflectionUtils.rethrowRuntimeException;
 
 /**
  * @Author: 乐哥
@@ -18,6 +21,9 @@ public class NacosRegAuto extends Mylistener {
 
     @Autowired
     Instance instance;
+
+    @Autowired
+    RegProxy regProxy;
 
     @Override
     public void register(Integer port) {
@@ -32,7 +38,13 @@ public class NacosRegAuto extends Mylistener {
             System.out.println("没有服务注册在nacos客户端上......");
             return;
         }
-        super.register(port);
 
+        try {
+            // 开始注册服务
+
+        }
+        catch (Exception e) {
+
+        }
     }
 }

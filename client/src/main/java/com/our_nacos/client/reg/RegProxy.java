@@ -1,6 +1,8 @@
 package com.our_nacos.client.reg;
 
 import com.our_nacos.client.beat.BeatInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @Author: 乐哥
@@ -8,9 +10,11 @@ import com.our_nacos.client.beat.BeatInfo;
  * @Time: 23:14
  * @Description:
  */
+@Component
 public class RegProxy {
 
-    static RegReactorImpl regReactor =new RegReactorImpl();
+    @Autowired
+    RegReactor regReactor;
 
     public boolean register(NacosDiscoveryProperties nacosDiscoveryProperties){
         BeatInfo beatInfo =new BeatInfo();

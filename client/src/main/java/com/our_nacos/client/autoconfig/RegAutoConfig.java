@@ -48,4 +48,11 @@ public class RegAutoConfig {
     public Instance instance(){
         return new Instance();
     }
+
+
+    @Bean
+    @ConditionalOnBean({NacosRegAuto.class,NacosDiscoveryProperties.class,NacosRegAuto.class})
+    public RegProxy regProxy(){
+        return new RegProxy();
+    }
 }

@@ -15,7 +15,8 @@ import org.springframework.util.StringUtils;
 
 public class NacosRegAuto extends Mylistener {
 
-    static RegProxy regProxy = new RegProxy();
+    @Autowired
+    RegProxy regProxy;
     @Override
     public void register(NacosDiscoveryProperties nacosDiscoveryProperties,Integer port) {
         if (!nacosDiscoveryProperties.isEnabled()) {

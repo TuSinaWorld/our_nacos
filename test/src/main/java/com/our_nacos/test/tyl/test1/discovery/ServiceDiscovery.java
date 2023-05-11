@@ -25,11 +25,13 @@ public class ServiceDiscovery {
         beatlnfo1.setServiceName("service-A");
         beatlnfo1.setPort(8080);
         beatlnfo1.setIp("localhost");
+        beatlnfo1.setWeight(11);
 
         BeatInfo beatlnfo2=new BeatInfo();
         beatlnfo2.setServiceName("service-A");
         beatlnfo2.setPort(8081);
         beatlnfo2.setIp("localhost");
+        beatlnfo2.setWeight(5);
 
         BeatInfo beatlnfo3=new BeatInfo();
         beatlnfo3.setServiceName("service-A");

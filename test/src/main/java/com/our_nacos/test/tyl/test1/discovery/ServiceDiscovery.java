@@ -3,6 +3,8 @@ package com.our_nacos.test.tyl.test1.discovery;
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import com.our_nacos.client.beat.BeatInfo;
+import com.our_nacos.client.loadbalance.WeightedResponseTimeRule;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +17,7 @@ public class ServiceDiscovery {
          AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
         PollingLoadBalancer polling=new PollingLoadBalancer();
         RandomLoadBalancer random=new RandomLoadBalancer();
+       WeightedResponseTimeRule weightedResponseTimeRule=new WeightedResponseTimeRule();
 
         Map<String, List<BeatInfo>> map= new HashMap<>();
         List<BeatInfo> list1=new ArrayList<>();
@@ -61,13 +64,14 @@ public class ServiceDiscovery {
 //            polling.polling(discover,nextServerCyclicCounter);
 //        }
         //随机 算法
-        for(int i=0;i<5;i++) {
-            String url = random.random(discover);
-            System.out.println(url);
-        }
+//        for(int i=0;i<5;i++) {
+//            String url = random.random(discover);
+//            System.out.println(url);
+//        }
+        String s = weightedResponseTimeRule.WeightedLoadBalancer(discover);
+        System.out.println(s);
 
-
-     }
+    }
     public  static List<BeatInfo> discover(Map<String,List<BeatInfo>> map ,String serviceName) {
         return map.get(serviceName);
     }

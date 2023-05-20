@@ -139,6 +139,12 @@ public class ServiceStorageImpl extends ServiceStorage {
             this.beatTime = Constants.BEAT_TIME_LIMIT;
         }
 
+        public RunTask(ScheduledExecutorService executorService,BeatInfo beatInfo,Integer beatTime){
+            this.beatInfo = beatInfo;
+            this.executorService = executorService;
+            this.beatTime = beatTime;
+        }
+
         @Override
         public void run() {
             this.beatInfo = getBeatInfo(this.beatInfo);
@@ -149,6 +155,7 @@ public class ServiceStorageImpl extends ServiceStorage {
             if(beatInfo.isStopped()){
                 logger.info("心跳已停止,无需检测...");
             }else {
+                logger.info("正常检测"+beatInfo+beatTime);
                 try {
                     if (beatInfo.isScheduled()) {
                         this.beatTime = Constants.BEAT_TIME_LIMIT;
@@ -165,7 +172,7 @@ public class ServiceStorageImpl extends ServiceStorage {
                     logger.error("心跳健康检测线程出现错误:"+e.getMessage());
                 }finally {
                     //计划重启线程
-                    executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
+                    executorService.schedule(new RunTask(executorService,beatInfo,beatTime),5000,TimeUnit.MILLISECONDS);
                 }
             }
         }

@@ -38,6 +38,9 @@ public class SpringServer {
         return new ResponseBean(1,"",null);
     }
 
+
+
+    //注册方法
     @RequestMapping("/reg")
     public ResponseBean reg(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
         Thread thread = new Thread(() -> {

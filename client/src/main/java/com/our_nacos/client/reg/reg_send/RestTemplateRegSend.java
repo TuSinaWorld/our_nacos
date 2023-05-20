@@ -11,21 +11,24 @@ public class RestTemplateRegSend extends RegSend {
     @Autowired
     private MyRestTemplate myRestTemplate;
 
-    private final String regUrl;
-    private final String removeUrl;
+    private String regUrl;
+    private String removeUrl;
     public RestTemplateRegSend() {
         super();
-        this.regUrl = getRegUrl();
-        this.removeUrl = getRemoveUrl();
     }
 
     public RestTemplateRegSend(NacosDiscoveryProperties nacosDiscoveryProperties){
         super(nacosDiscoveryProperties);
+    }
+
+    @Autowired
+    public void setThisUrl(){
         this.regUrl = getRegUrl();
         this.removeUrl = getRemoveUrl();
     }
 
     private void sendInfo(String url){
+        System.out.println(url);
         ResponseBean responseBean;
         try {
             //向指定url发送注册信息,接收为ResponseBean

@@ -6,6 +6,7 @@ import com.our_nacos.client.reg.reg_send.RestTemplateRegSend;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -55,5 +56,16 @@ public class RegAutoConfig {
     @ConditionalOnBean({NacosRegAuto.class,NacosDiscoveryProperties.class,NacosRegAuto.class})
     public RegProxy regProxy(){
         return new RegProxy();
+    }
+
+    @Order(1)
+    @Configuration(proxyBeanMethods = false)
+    @AutoConfigureAfter({Serverport.class,NacosDiscoveryProperties.class})
+    @EnableConfigurationProperties(NacosServerProperties.class)
+    protected class NacosServiceInfo {
+        @Bean
+        public NacosServerProperties nacosServerProperties() {
+            return new NacosServerProperties();
+        }
     }
 }

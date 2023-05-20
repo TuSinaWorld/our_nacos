@@ -15,27 +15,24 @@ public class RestTemplateSend extends BeatSend{
     @Autowired
     MyRestTemplate myRestTemplate;
 
-    //目标url
-    private final String url;
 
     //调用无参抽象构造方法同时新建RestTemplate并拼接url
     public RestTemplateSend(){
         super();
-        url = getUrl();
     }
 
     //调用带参抽象构造方法同时新建RestTemplate并拼接url
     public RestTemplateSend(BeatInfo beatInfo){
         super(beatInfo);
-        url = getUrl();
     }
 
     @Override
     public void send() {
         ResponseBean responseBean;
         try {
+            System.out.println(getUrl());
             //向指定url发送心跳信息,接收为ResponseBean
-            responseBean = myRestTemplate.postForObject(url, beatInfo, ResponseBean.class);
+            responseBean = myRestTemplate.postForObject(getUrl(), beatInfo, ResponseBean.class);
         }catch (Exception e){
             throw new RuntimeException("发送心跳时出现错误:",e);
         }

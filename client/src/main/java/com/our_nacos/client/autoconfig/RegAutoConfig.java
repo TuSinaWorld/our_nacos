@@ -58,14 +58,4 @@ public class RegAutoConfig {
         return new RegProxy();
     }
 
-    @Order(1)
-    @Configuration(proxyBeanMethods = false)
-    @AutoConfigureAfter({Serverport.class,NacosDiscoveryProperties.class})
-    @EnableConfigurationProperties(NacosServerProperties.class)
-    protected class NacosServiceInfo {
-        @Bean
-        public NacosServerProperties nacosServerProperties() {
-            return new NacosServerProperties();
-        }
-    }
 }

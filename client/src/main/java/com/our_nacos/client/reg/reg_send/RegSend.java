@@ -1,7 +1,7 @@
 package com.our_nacos.client.reg.reg_send;
 
+import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.reg.NacosDiscoveryProperties;
-import com.our_nacos.client.reg.NacosServerProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,6 @@ public abstract class RegSend {
     public RegSend() {
     }
 
-    @Autowired
-    public void setServer(@Autowired NacosServerProperties nacosServerProperties){
-        this.serverIp = nacosServerProperties.getServerAdd();
-        this.serverPort = nacosServerProperties.getPort();
-
-    }
-
     public RegSend(NacosDiscoveryProperties nacosDiscoveryProperties) {
         this.nacosDiscoveryProperties = nacosDiscoveryProperties;
     }
@@ -32,9 +25,7 @@ public abstract class RegSend {
         return nacosDiscoveryProperties;
     }
 
-    public void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties) {
-        this.nacosDiscoveryProperties = nacosDiscoveryProperties;
-    }
+    public abstract void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties);
 
     public String getServerIp() {
         return serverIp;

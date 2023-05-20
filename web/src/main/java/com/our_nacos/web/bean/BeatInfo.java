@@ -1,4 +1,4 @@
-package com.our_nacos.server.bean;
+package com.our_nacos.web.bean;
 
 import java.util.Map;
 
@@ -30,26 +30,6 @@ public class BeatInfo {
     private volatile long period = 5000;
 
     private volatile boolean stopped = false;
-
-    private String serverIp = "127.0.0.1";
-
-    private Integer severPort = -1;
-
-    public String getServerIp() {
-        return serverIp;
-    }
-
-    public void setServerIp(String serverIp) {
-        this.serverIp = serverIp;
-    }
-
-    public Integer getSeverPort() {
-        return severPort;
-    }
-
-    public void setSeverPort(Integer severPort) {
-        this.severPort = severPort;
-    }
 
     public int getPort() {
         return port;

@@ -13,18 +13,20 @@ public class RestTemplateRegSend extends RegSend {
 
     private String regUrl;
     private String removeUrl;
+
     public RestTemplateRegSend() {
         super();
     }
 
     public RestTemplateRegSend(NacosDiscoveryProperties nacosDiscoveryProperties){
         super(nacosDiscoveryProperties);
+        setIpAndPort();
     }
 
-    @Autowired
-    public void setThisUrl(){
-        this.regUrl = getRegUrl();
-        this.removeUrl = getRemoveUrl();
+    @Override
+    public void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties) {
+        this.nacosDiscoveryProperties = nacosDiscoveryProperties;
+        setIpAndPort();
     }
 
     private void sendInfo(String url){
@@ -44,16 +46,6 @@ public class RestTemplateRegSend extends RegSend {
         }
     }
 
-    @Override
-    public void sendRegInfo() {
-        sendInfo(regUrl);
-    }
-
-    @Override
-    public void revocationRegInfo() {
-        sendInfo(removeUrl);
-    }
-
     private String getRegUrl(){
         return Constants.REQUEST_HEAD + serverIp +
                 Constants.SEPARATE_IP_PORT + serverPort +
@@ -65,4 +57,23 @@ public class RestTemplateRegSend extends RegSend {
                 Constants.SEPARATE_IP_PORT + serverPort +
                 Constants.REST_TEMPLATE_REMOVE_SEND_SUFFIX;
     }
+
+    @Override
+    public void sendRegInfo() {
+        sendInfo(regUrl);
+    }
+
+    @Override
+    public void revocationRegInfo() {
+        sendInfo(removeUrl);
+    }
+
+    private void setIpAndPort() {
+        String serverAddr = nacosDiscoveryProperties.getServerAddr();
+        this.serverIp = serverAddr.substring(0,serverAddr.indexOf(":"));
+        this.serverPort = Integer.valueOf(serverAddr.substring(serverAddr.indexOf(":") + 1));
+        this.regUrl = getRegUrl();
+        this.removeUrl = getRemoveUrl();
+    }
+
 }

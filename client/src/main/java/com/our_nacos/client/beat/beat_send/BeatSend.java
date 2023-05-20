@@ -6,21 +6,43 @@ public abstract class BeatSend {
 
     protected BeatInfo beatInfo;
 
-    //TODO:从配置文件获取ourNacos服务ip
     protected String serverIp = "127.0.0.1";
 
-    //TODO:从配置文件获取ourNacos服务端口
-    protected Integer serverPort = 25544;
+    protected Integer serverPort=-1;
 
     public BeatSend(){}
     public BeatSend(BeatInfo beatInfo){
         this.beatInfo = beatInfo;
+        this.serverIp = beatInfo.getServerIp();
+        this.serverPort = beatInfo.getSeverPort();
     }
     public BeatSend setBeatInfo(BeatInfo beatInfo) {
         this.beatInfo = beatInfo;
+        this.serverIp = beatInfo.getServerIp();
+        this.serverPort = beatInfo.getSeverPort();
         return this;
     }
 
     //TODO:回传信息
     public abstract void send();
+
+    public BeatInfo getBeatInfo() {
+        return beatInfo;
+    }
+
+    public String getServerIp() {
+        return serverIp;
+    }
+
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
+
+    public Integer getServerPort() {
+        return serverPort;
+    }
+
+    public void setServerPort(Integer serverPort) {
+        this.serverPort = serverPort;
+    }
 }

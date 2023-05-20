@@ -24,7 +24,7 @@ public class BeatInfo {
 
     private Map<String, String> metadata = null;
 
-    private volatile boolean scheduled = false;
+    private volatile boolean scheduled = true;
 
     //心跳间隔时间(ms)
     private volatile long period = 5000;

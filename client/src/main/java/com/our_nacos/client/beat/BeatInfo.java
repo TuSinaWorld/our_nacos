@@ -26,8 +26,8 @@ public class BeatInfo {
     //TODO:服务元数据
     private Map<String, String> metadata = null;
 
-    //TODO:判断是否加入心跳计时器
-    private volatile boolean scheduled = false;
+    //心跳计时器刷新
+    private volatile boolean scheduled = true;
 
     //心跳间隔时间(ms)
     //TODO:根据配置文件获取心跳间隔时间

@@ -3,8 +3,7 @@ package com.our_nacos.test.tyl.test1.discovery;
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import com.our_nacos.client.beat.BeatInfo;
-import com.our_nacos.client.loadbalance.WeightedResponseTimeRule;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.our_nacos.client.loadbalance.WeightedLoadBalancer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +13,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServiceDiscovery {
     public static void main(String[] args)  {
-         AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
+        AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
         PollingLoadBalancer polling=new PollingLoadBalancer();
         RandomLoadBalancer random=new RandomLoadBalancer();
-       WeightedResponseTimeRule weightedResponseTimeRule=new WeightedResponseTimeRule();
+       WeightedLoadBalancer weightedResponseTimeRule=new WeightedLoadBalancer();
 
         Map<String, List<BeatInfo>> map= new HashMap<>();
         List<BeatInfo> list1=new ArrayList<>();
@@ -68,8 +67,7 @@ public class ServiceDiscovery {
 //            String url = random.random(discover);
 //            System.out.println(url);
 //        }
-        String s = weightedResponseTimeRule.WeightedLoadBalancer(discover);
-        System.out.println(s);
+
 
     }
     public  static List<BeatInfo> discover(Map<String,List<BeatInfo>> map ,String serviceName) {

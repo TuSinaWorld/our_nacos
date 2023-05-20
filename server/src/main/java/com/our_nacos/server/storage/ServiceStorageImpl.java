@@ -61,9 +61,13 @@ public class ServiceStorageImpl extends ServiceStorage {
         }else{
             //当心跳仍然健康时,重置里面scheduled属性,维持心跳健康
             //当里面心跳亚健康时,重置schedule和stopped属性,恢复心跳健康
-            beatInfoMap.replace(buildBeatInfoKey(beatInfo), beatInfo);
+            if(getBeatInfo(beatInfo).isStopped()){
+                beatInfoMap.replace(buildBeatInfoKey(beatInfo), beatInfo);
+                executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
+            }else {
+                beatInfoMap.replace(buildBeatInfoKey(beatInfo), beatInfo);
+            }
         }
-
         return this;
     }
 
@@ -137,15 +141,15 @@ public class ServiceStorageImpl extends ServiceStorage {
 
         @Override
         public void run() {
-            try {
-                this.beatInfo = getBeatInfo(this.beatInfo);
-                if (this.beatInfo == null) {
-                    logger.error("严重错误:该心跳不存在!");
-                    return;
-                }
-                if(beatInfo.isStopped()){
-                    logger.info("心跳已停止,无需检测...");
-                }else {
+            this.beatInfo = getBeatInfo(this.beatInfo);
+            if (this.beatInfo == null) {
+                logger.error("严重错误:该心跳不存在!");
+                return;
+            }
+            if(beatInfo.isStopped()){
+                logger.info("心跳已停止,无需检测...");
+            }else {
+                try {
                     if (beatInfo.isScheduled()) {
                         this.beatTime = Constants.BEAT_TIME_LIMIT;
                         this.beatInfo.setScheduled(false);
@@ -157,12 +161,12 @@ public class ServiceStorageImpl extends ServiceStorage {
                         stopServiceByBeat(beatInfo);
                         logger.info("心跳已经停止.....:" + beatInfo.toString());
                     }
+                }catch (Exception e){
+                    logger.error("心跳健康检测线程出现错误:"+e.getMessage());
+                }finally {
+                    //计划重启线程
+                    executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
                 }
-            }catch (Exception e){
-                logger.error("心跳健康检测线程出现错误:"+e.getMessage());
-            }finally {
-                //计划重启线程
-                executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
             }
         }
     }

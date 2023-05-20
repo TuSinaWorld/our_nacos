@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>yc119.our_nacos</groupId>
-    <artifactId>client</artifactId>
+    <artifactId>web</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

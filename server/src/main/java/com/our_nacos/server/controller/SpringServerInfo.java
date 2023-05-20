@@ -19,12 +19,13 @@ import java.util.Map;
 @RestController
 @RequestMapping("/get")
 public class SpringServerInfo {
-
+    //日志
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     ServiceStorage storage;
 
-    @RequestMapping("list")
+    //根据服务名获取服务类别的mvc方法
+    @RequestMapping("/list")
     public Map<String, BeatInfo> getInstanceList(String serviceName){
         Map<String, BeatInfo> beatInfoList = storage.getBeatInfoList(serviceName);
         if(beatInfoList==null && beatInfoList.isEmpty()){

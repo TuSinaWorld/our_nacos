@@ -1,5 +1,6 @@
 package com.our_nacos.client.common;
 
+//接收响应参数方法
 public class ResponseBean {
     private Integer code;
     private String msg;

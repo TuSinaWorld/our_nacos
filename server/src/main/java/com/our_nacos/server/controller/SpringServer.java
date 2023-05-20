@@ -22,14 +22,16 @@ public class SpringServer {
     @Autowired
     ServiceStorage storage;
 
+    //日志
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    //新增方法
+    //根据接收心跳信息进行下一步操作
     @RequestMapping("/accept")
     public ResponseBean accept(@RequestBody BeatInfo beatInfo){
-        //TODO:根据心跳注册服务,维持服务等等.
+        //使用线程进行下一步操作
         Thread thread = new Thread(() -> {
             logger.info(String.valueOf(beatInfo));
+            //具体的下一步操作(请无视方法名的问题)
             storage.addServiceByBeat(beatInfo);
         });
         thread.setDaemon(true);
@@ -43,6 +45,7 @@ public class SpringServer {
     //注册方法
     @RequestMapping("/reg")
     public ResponseBean reg(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
+        //使用线程进行下一步操作
         Thread thread = new Thread(() -> {
             logger.info(String.valueOf(nacosDiscoveryProperties));
             storage.regNewService(nacosDiscoveryProperties);
@@ -53,32 +56,24 @@ public class SpringServer {
         return new ResponseBean(1,"",null);
     }
 
+    //TODO:通过接口结束相应服务
     @RequestMapping("/remove")
     public ResponseBean remove(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
         return new ResponseBean(1,"",null);
     }
 
-    @RequestMapping("/test")
-    public ResponseBean test(){
-        storage.getAllServicesInfo().forEach((st,map) -> {
-            System.out.println(st);
-            map.forEach((st2,beatInfo) -> {
-                System.out.println(st2);
-                System.out.println(beatInfo);
-            });
-        });
-        return null;
-    }
-
+    //构建心跳线程名
     private String buildThreadName(BeatInfo beatInfo){
         return buildThreadName("BeatThread",beatInfo.getServiceName(),beatInfo.getIp(), beatInfo.getPort());
     }
 
+    //构建注册线程名
     private String buildThreadName(NacosDiscoveryProperties nacosDiscoveryProperties){
         return buildThreadName("NacosPropertiesThread",nacosDiscoveryProperties.getService()
         ,nacosDiscoveryProperties.getIp(),nacosDiscoveryProperties.getPort());
     }
 
+    //构建线程名通用方法
     private String buildThreadName(String name,String serviceName,String ip,Integer port){
         return name + Constants.SEPARATE_NAME_ATTRIBUTE + serviceName
                 + Constants.SEPARATE_NAME_ATTRIBUTE + ip

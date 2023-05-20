@@ -10,7 +10,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-//TODO:请在@Import类中写入需要自动配置类
 @Import(EnableDiscoveryImportSelector.class)
 public @interface OurEnableDiscoveryClient {
     boolean autoregister() default true;

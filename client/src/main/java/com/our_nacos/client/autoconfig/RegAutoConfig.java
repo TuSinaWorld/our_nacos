@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
+//注册自动配置类
 @Configuration
 @AutoConfigureAfter(BeatAutoConfig.class)
 @Order(0)

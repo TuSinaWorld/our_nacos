@@ -14,13 +14,10 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 //简单版
 //TODO:自动配置,托管条件
 @Component
-public class PollingLoadBalancer  {
-//    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
+public class PollingLoadBalancer  implements MyLoadBalance{
+    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
-    @Autowired
-    private RestTemplate restTemplate;
-
-   public String polling(List<BeatInfo> beatInfos,AtomicInteger nextServerCyclicCounter){
+   public String choose(List<BeatInfo> beatInfos){
        if(beatInfos == null ||beatInfos.size() == 0){
            throw new NullBeatInfoException();
        }

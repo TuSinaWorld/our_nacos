@@ -1,10 +1,17 @@
 package com.our_nacos.client.reg;
 
+import com.our_nacos.client.annotation.Loadbalance;
 import com.our_nacos.client.listener.Mylistener;
-import com.our_nacos.client.reg.Instance;
-import com.our_nacos.client.reg.RegProxy;
+import com.our_nacos.client.loadbalance.MyLoadBalance;
+import com.our_nacos.client.loadbalance.PollingLoadBalancer;
+import com.our_nacos.client.loadbalance.RandomLoadBalancer;
+import com.our_nacos.client.loadbalance.WeightedLoadBalancer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
+
+import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
 /**
  * @Author: 乐哥
@@ -38,6 +45,50 @@ public class NacosRegAuto extends Mylistener {
         }
         catch (Exception e) {
             System.out.println("服务注册失败......");
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void selectloadbalancer() {
+        MyLoadBalance myLoadBalance=null;
+        ClassLoader classLoader = NacosRegAuto.class.getClassLoader();
+        String path = System.getProperty("sun.java.command");
+        path=path.replace("." , "/");
+        System.out.println(path);
+        URL resource = classLoader.getResource(path+".class");
+        System.out.println(resource.toString());
+        File file = new File(resource.getFile());
+
+
+        String absolutePath = file.getAbsolutePath();
+        String className = absolutePath.substring(absolutePath.indexOf("com"), absolutePath.indexOf(".class"));
+        className=className.replace("\\" , ".");
+        Class<?> clazz = null;
+        try {
+            clazz=classLoader.loadClass(className);
+            if(clazz.isAnnotationPresent(Loadbalance.class)){
+                Loadbalance annotation = clazz.getAnnotation(Loadbalance.class);
+                String value = annotation.value();
+                Class<?> aClass = classLoader.loadClass("com.our_nacos.client.loadbalance." + value);
+                Constructor<?> declaredConstructor = null;
+                try {
+                    declaredConstructor = aClass.getDeclaredConstructor();
+                    try {
+                        myLoadBalance  =(MyLoadBalance)declaredConstructor.newInstance();
+                    } catch (InstantiationException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

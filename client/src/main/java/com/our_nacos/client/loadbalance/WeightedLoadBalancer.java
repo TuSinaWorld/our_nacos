@@ -9,9 +9,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 @Component
-public class WeightedResponseTimeRule extends PollingLoadBalancer{
+public class WeightedLoadBalancer implements MyLoadBalance{
 
-    public String WeightedLoadBalancer(List<BeatInfo> beatInfos){
+    public String choose(List<BeatInfo> beatInfos){
         // 计算平均响应时间和总权重
         double totalWeight = 0;
         double[] avgWeight = new double[beatInfos.size()];

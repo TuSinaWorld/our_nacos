@@ -33,4 +33,13 @@ public class SpringServerInfo {
         }
         return beatInfoList;
     }
+
+    @RequestMapping("/listall")
+    public Map<String, Map<String, BeatInfo>> getInstanceListAll(){
+        Map<String, Map<String, BeatInfo>> servicesMap = storage.getServicesMap();
+        if(servicesMap==null && servicesMap.isEmpty()){
+            logger.error("该服务名未注册,无法获取相关实例信息...");
+        }
+        return servicesMap;
+    }
 }

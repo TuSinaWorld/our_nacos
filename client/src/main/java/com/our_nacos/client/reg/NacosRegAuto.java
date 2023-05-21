@@ -49,47 +49,47 @@ public class NacosRegAuto extends Mylistener {
         }
     }
 
-    @Override
-    protected void selectloadbalancer() {
-        MyLoadBalance myLoadBalance=null;
-        ClassLoader classLoader = NacosRegAuto.class.getClassLoader();
-        String path = System.getProperty("sun.java.command");
-        path=path.replace("." , "/");
-        System.out.println(path);
-        URL resource = classLoader.getResource(path+".class");
-        System.out.println(resource.toString());
-        File file = new File(resource.getFile());
-
-
-        String absolutePath = file.getAbsolutePath();
-        String className = absolutePath.substring(absolutePath.indexOf("com"), absolutePath.indexOf(".class"));
-        className=className.replace("\\" , ".");
-        Class<?> clazz = null;
-        try {
-            clazz=classLoader.loadClass(className);
-            if(clazz.isAnnotationPresent(Loadbalance.class)){
-                Loadbalance annotation = clazz.getAnnotation(Loadbalance.class);
-                String value = annotation.value();
-                Class<?> aClass = classLoader.loadClass("com.our_nacos.client.loadbalance." + value);
-                Constructor<?> declaredConstructor = null;
-                try {
-                    declaredConstructor = aClass.getDeclaredConstructor();
-                    try {
-                        myLoadBalance  =(MyLoadBalance)declaredConstructor.newInstance();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    }
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    protected void selectloadbalancer() {
+//        MyLoadBalance myLoadBalance=null;
+//        ClassLoader classLoader = NacosRegAuto.class.getClassLoader();
+//        String path = System.getProperty("sun.java.command");
+//        path=path.replace("." , "/");
+//        System.out.println(path);
+//        URL resource = classLoader.getResource(path+".class");
+//        System.out.println(resource.toString());
+//        File file = new File(resource.getFile());
+//
+//
+//        String absolutePath = file.getAbsolutePath();
+//        String className = absolutePath.substring(absolutePath.indexOf("com"), absolutePath.indexOf(".class"));
+//        className=className.replace("\\" , ".");
+//        Class<?> clazz = null;
+//        try {
+//            clazz=classLoader.loadClass(className);
+//            if(clazz.isAnnotationPresent(Loadbalance.class)){
+//                Loadbalance annotation = clazz.getAnnotation(Loadbalance.class);
+//                String value = annotation.value();
+//                Class<?> aClass = classLoader.loadClass("com.our_nacos.client.loadbalance." + value);
+//                Constructor<?> declaredConstructor = null;
+//                try {
+//                    declaredConstructor = aClass.getDeclaredConstructor();
+//                    try {
+//                        myLoadBalance =(MyLoadBalance)declaredConstructor.newInstance();
+//                    } catch (InstantiationException e) {
+//                        e.printStackTrace();
+//                    } catch (IllegalAccessException e) {
+//                        e.printStackTrace();
+//                    } catch (InvocationTargetException e) {
+//                        e.printStackTrace();
+//                    }
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -24,7 +24,7 @@ public class PollingLoadBalancer  implements MyLoadBalance{
        int serverCount=beatInfos.size();
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
-       if(!beatInfo.isStopped()){
+       if(beatInfo.isStopped()){
            throw new RuntimeException("此服务已关闭");
        }
 //       http://localhost:8080/

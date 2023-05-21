@@ -18,6 +18,10 @@ public abstract class ServiceStorage {
         return servicesMap.getOrDefault(serviceName, null);
     }
 
+    public Map<String, Map<String, BeatInfo>> getServicesMap() {
+        return servicesMap;
+    }
+
     //注册服务方法
     //TODO:账号密码检测等等功能
     public abstract ServiceStorage regNewService(NacosDiscoveryProperties nacosDiscoveryProperties);

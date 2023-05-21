@@ -34,8 +34,7 @@ public abstract class Mylistener implements ApplicationListener<WebServerInitial
     }
 
     protected abstract void register(NacosDiscoveryProperties nacosDiscoveryProperties,Integer port);
-//
-//    protected abstract void selectloadbalancer();
+
 
 
 
@@ -48,6 +47,5 @@ public abstract class Mylistener implements ApplicationListener<WebServerInitial
             return;
         }
         this.register(nacosDiscoveryProperties,event.getWebServer().getPort());
-//        this.selectloadbalancer();
     }
 }

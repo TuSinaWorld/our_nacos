@@ -16,9 +16,6 @@ public class RandomLoadBalancer implements MyLoadBalance {
         Random random=new Random();
         int index = random.nextInt(serverCount);
         BeatInfo beatInfo = beatInfos.get(index);
-//        if(beatInfo.isStopped()){
-//            throw new RuntimeException("此服务已关闭");
-//        }
         //RestTemplate中url 第一种写法
         String url=REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/";
         //RestTemplate中url 第二种写法

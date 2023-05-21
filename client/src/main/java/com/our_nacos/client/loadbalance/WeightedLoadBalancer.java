@@ -16,29 +16,17 @@ public class WeightedLoadBalancer implements MyLoadBalance{
         double[] avgWeight = new double[beatInfos.size()];
         for (int i=0;i<beatInfos.size();i++) {
             BeatInfo beatInfo = beatInfos.get(i);
-            boolean stopped = beatInfo.isStopped();
-            if(stopped==false) {
                 totalWeight += beatInfo.getWeight();
-//            avgResponseTime[i] = calculateAvgResponseTime(server);
                 avgWeight[i] = totalWeight;
-            }else {
-                continue;
-            }
         }
-
 
         // 计算权重值
         double[] weights = new double[beatInfos.size()];
         double sum=0.0;
         for (int i = 0; i < beatInfos.size(); i++) {
             BeatInfo beatInfo = beatInfos.get(i);
-            boolean stopped = beatInfo.isStopped();
-            if(stopped==false) {
                 weights[i] = (totalWeight - beatInfo.getWeight())+sum;
                 sum=weights[i];
-            }else {
-                continue;
-            }
         }
 
         // 选择服务器

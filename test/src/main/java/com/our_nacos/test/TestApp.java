@@ -1,5 +1,6 @@
 package com.our_nacos.test;
 
+import com.our_nacos.client.annotation.Loadbalance;
 import com.our_nacos.client.annotation.OurEnableDiscoveryClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @OurEnableDiscoveryClient
+@Loadbalance
 public class TestApp {
     public static void main(String[] args) {
         SpringApplication.run(TestApp.class);

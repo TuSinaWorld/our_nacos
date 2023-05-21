@@ -1,5 +1,7 @@
 package com.our_nacos.client.autoconfig;
 
+import com.our_nacos.client.discovery.LoadbalanceURL;
+import com.our_nacos.client.discovery.ServiceDiscovery;
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import com.our_nacos.client.loadbalance.WeightedLoadBalancer;
@@ -30,5 +32,13 @@ public class LoadBalancerAutoConfig {
     @Bean
     public WeightedLoadBalancer weightedLoadBalancer(){
         return new WeightedLoadBalancer();
+    }
+    @Bean
+    public ServiceDiscovery serviceDiscovery(){
+        return new ServiceDiscovery();
+    }
+    @Bean
+    public LoadbalanceURL loadbalanceURL(){
+        return new LoadbalanceURL();
     }
 }

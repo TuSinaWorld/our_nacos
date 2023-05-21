@@ -14,18 +14,15 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 //简单版
 //TODO:自动配置,托管条件
 public class PollingLoadBalancer  implements MyLoadBalance{
-    private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
+    private static AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
-   public String choose(List<BeatInfo> beatInfos){
+    public String choose(List<BeatInfo> beatInfos){
        if(beatInfos == null ||beatInfos.size() == 0){
            throw new NullBeatInfoException();
        }
        int serverCount=beatInfos.size();
        int nextServerIndex = incrementAndGetModulo(serverCount,nextServerCyclicCounter);
        BeatInfo beatInfo = beatInfos.get(nextServerIndex);
-//       if(beatInfo.isStopped()){
-//           throw new RuntimeException("此服务已关闭");
-//       }
 //       http://localhost:8080/
 //       http://namespace/
        //RestTemplate中url 第一种写法

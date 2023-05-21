@@ -17,22 +17,22 @@ import java.util.Map;
 @RestController
 public class Test {
 
-    @Autowired
-    private ServiceDiscovery serviceDiscovery;
-
-    @RequestMapping("/test")
-    public String test() throws JsonProcessingException {
-        Map<String, BeatInfo> all = serviceDiscovery.findAll();
-        ObjectMapper mapper=new ObjectMapper();
-        CollectionType listType =
-                mapper.getTypeFactory().constructCollectionType(ArrayList.class, BeatInfo.class);
-        String JSON = mapper.writeValueAsString(all.values());
-        List<BeatInfo> list = mapper.readValue(JSON, listType);
-
+//    @Autowired(required = false)
+//    private ServiceDiscovery serviceDiscovery;
+//
+//    @RequestMapping("/test")
+//    public String test() throws JsonProcessingException {
 //        Map<String, BeatInfo> all = serviceDiscovery.findAll();
-//        List<BeatInfo> list  = new ArrayList<BeatInfo>(all.values());
-        MyLoadBalance selectloadbalancer = serviceDiscovery.selectloadbalancer();
-        String url = selectloadbalancer.choose(list);
-        return url;
-    }
+//        ObjectMapper mapper=new ObjectMapper();
+//        CollectionType listType =
+//                mapper.getTypeFactory().constructCollectionType(ArrayList.class, BeatInfo.class);
+//        String JSON = mapper.writeValueAsString(all.values());
+//        List<BeatInfo> list = mapper.readValue(JSON, listType);
+//
+////        Map<String, BeatInfo> all = serviceDiscovery.findAll();
+////        List<BeatInfo> list  = new ArrayList<BeatInfo>(all.values());
+//        MyLoadBalance selectloadbalancer = serviceDiscovery.selectloadbalancer();
+//        String url = selectloadbalancer.choose(list);
+//        return url;
+//    }
 }

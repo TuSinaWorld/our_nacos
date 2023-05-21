@@ -17,7 +17,7 @@ import java.util.Map;
 @RestController
 public class Test {
 
-    @Autowired(required = false)
+    @Autowired
     private ServiceDiscovery serviceDiscovery;
 
     @RequestMapping("/test")

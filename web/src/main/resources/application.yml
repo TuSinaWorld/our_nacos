@@ -1,2 +1,6 @@
 server:
   port: ${port:25545}
+our-nacos:
+  server-info:
+    serverIp: 127.0.0.1
+    serverPort: 25544

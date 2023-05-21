@@ -15,9 +15,6 @@ import java.net.URISyntaxException;
 public class Demo {
 
     @Autowired
-    private LoadbalanceURL loadbalanceURL;
-
-    @Autowired
     private MIneRestTemplate mIneRestTemplate;
 
     @RequestMapping("demo")

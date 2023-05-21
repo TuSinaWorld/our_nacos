@@ -5,5 +5,5 @@ import com.our_nacos.client.beat.BeatInfo;
 import java.util.List;
 
 public interface MyLoadBalance {
-    public String choose(List<BeatInfo> beatInfos);
+    public String choose(List<BeatInfo> beatInfos,String rawPath);
 }

@@ -36,6 +36,7 @@ public class ServiceDiscovery {
     //根据serviceName获取服务端口
     public  Map<String,BeatInfo> findAll(String serviceName){
 //        String ServiceName="res-food";
+        //获取服务的请求地址
         String url= Constants.REQUEST_HEAD +instance.getServerAddr() + Constants.GET_ALL_SERVICES;
         System.out.println(url);
         ResponseEntity<Map> forEntity = restTemplate.getForEntity(url, Map.class);

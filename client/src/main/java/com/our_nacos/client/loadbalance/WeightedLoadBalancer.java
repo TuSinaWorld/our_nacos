@@ -10,7 +10,7 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 public class WeightedLoadBalancer implements MyLoadBalance{
 
-    public String choose(List<BeatInfo> beatInfos){
+    public String choose(List<BeatInfo> beatInfos,String rawPath){
         // 计算平均响应时间和总权重
         double totalWeight = 0;
         double[] avgWeight = new double[beatInfos.size()];
@@ -35,7 +35,7 @@ public class WeightedLoadBalancer implements MyLoadBalance{
         for (int i = 0; i < beatInfos.size(); i++) {
             weightSum += weights[i];
             if (randomWeight < weightSum) {
-                return REQUEST_HEAD+beatInfos.get(i).getIp()+":"+beatInfos.get(i).getPort()+"/";
+                return REQUEST_HEAD+beatInfos.get(i).getIp()+":"+beatInfos.get(i).getPort()+rawPath;
             }
         }
          return null;

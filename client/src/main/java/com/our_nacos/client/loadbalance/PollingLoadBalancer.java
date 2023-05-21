@@ -16,7 +16,7 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 public class PollingLoadBalancer  implements MyLoadBalance{
     private static AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 
-    public String choose(List<BeatInfo> beatInfos){
+    public String choose(List<BeatInfo> beatInfos,String rawPath){
        if(beatInfos == null ||beatInfos.size() == 0){
            throw new NullBeatInfoException();
        }
@@ -26,7 +26,7 @@ public class PollingLoadBalancer  implements MyLoadBalance{
 //       http://localhost:8080/
 //       http://namespace/
        //RestTemplate中url 第一种写法
-       String url=REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+"/";
+       String url=REQUEST_HEAD+beatInfo.getIp()+":"+beatInfo.getPort()+rawPath;
        //RestTemplate中url 第二种写法
 //        String url=REQUEST_HEAD+beatInfo.getServiceName()+"/";
        return url;

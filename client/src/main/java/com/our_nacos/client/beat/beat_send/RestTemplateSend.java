@@ -30,7 +30,6 @@ public class RestTemplateSend extends BeatSend{
     public void send() {
         ResponseBean responseBean;
         try {
-            System.out.println(getUrl());
             //向指定url发送心跳信息,接收为ResponseBean
             responseBean = myRestTemplate.postForObject(getUrl(), beatInfo, ResponseBean.class);
         }catch (Exception e){

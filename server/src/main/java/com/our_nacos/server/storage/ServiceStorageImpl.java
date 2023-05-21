@@ -48,6 +48,7 @@ public class ServiceStorageImpl extends ServiceStorage {
         if(!servicesMap.containsKey(nacosDiscoveryProperties.getService())){
             Map<String,BeatInfo> beatMap = new HashMap<>();
             //注册
+            logger.info("新服务注册:" + nacosDiscoveryProperties.getService());
             servicesMap.put(nacosDiscoveryProperties.getService(),beatMap);
         }
         return this;
@@ -64,11 +65,13 @@ public class ServiceStorageImpl extends ServiceStorage {
         if(!beatInfoMap.containsKey(buildBeatInfoKey(beatInfo))) {
             beatInfoMap.put(buildBeatInfoKey(beatInfo), beatInfo);
             //新增心跳检测线程
+            logger.info("新增心跳:"+buildBeatInfoKey(beatInfo));
             executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
         }else{
             //当里面心跳亚健康时,重置schedule和stopped属性,恢复心跳健康,并重启心跳检测线程
             if(getBeatInfo(beatInfo).isStopped()){
                 beatInfoMap.replace(buildBeatInfoKey(beatInfo), beatInfo);
+                logger.info("心跳复苏:"+buildBeatInfoKey(beatInfo));
                 executorService.schedule(new RunTask(executorService,beatInfo),5000,TimeUnit.MILLISECONDS);
 
             }
@@ -140,6 +143,8 @@ public class ServiceStorageImpl extends ServiceStorage {
         private Integer beatTime;
         //心跳信息
         private BeatInfo beatInfo;
+        //发送心跳间隔
+        private Integer nextTime;
 
         //未带倒计时的构建方法
         public RunTask(ScheduledExecutorService executorService,BeatInfo beatInfo){
@@ -165,12 +170,13 @@ public class ServiceStorageImpl extends ServiceStorage {
             }
             //心跳停止后终止线程运行
             if(beatInfo.isStopped()){
-                logger.info("心跳已停止,无需检测...");
+                logger.info("心跳已停止..." + buildBeatInfoKey(beatInfo));
             }
             //心跳正常时执行健康检测
             else {
-                logger.info("正常检测"+beatInfo+beatTime);
+//                logger.info("正常检测"+beatInfo+beatTime);
                 try {
+                    nextTime = Constants.BEAT_NEXT_TIME;
                     //根据心跳中属性确定是否存在心跳维持,若有,则重置倒计时.
                     if (beatInfo.isScheduled()) {
                         this.beatTime = Constants.BEAT_TIME_LIMIT;
@@ -184,13 +190,14 @@ public class ServiceStorageImpl extends ServiceStorage {
                     //若心跳倒计时归0,该心跳终止.
                     if (beatTime <= 0) {
                         stopServiceByBeat(beatInfo);
-                        logger.info("心跳已经停止.....:" + beatInfo.toString());
+//                        logger.info("心跳已经停止.....:" + buildBeatInfoKey(beatInfo));
+                        nextTime = 0;
                     }
                 }catch (Exception e){
                     logger.error("心跳健康检测线程出现错误:"+e.getMessage());
                 }finally {
                     //计划重启线程
-                    executorService.schedule(new RunTask(executorService,beatInfo,beatTime),5000,TimeUnit.MILLISECONDS);
+                    executorService.schedule(new RunTask(executorService,beatInfo,beatTime),nextTime,TimeUnit.MILLISECONDS);
                 }
             }
         }

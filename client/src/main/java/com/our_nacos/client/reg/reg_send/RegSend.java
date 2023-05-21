@@ -19,13 +19,17 @@ public abstract class RegSend {
 
     public RegSend(NacosDiscoveryProperties nacosDiscoveryProperties) {
         this.nacosDiscoveryProperties = nacosDiscoveryProperties;
+        setIpAndPort();
     }
 
     public NacosDiscoveryProperties getNacosDiscoveryProperties() {
         return nacosDiscoveryProperties;
     }
 
-    public abstract void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties);
+    public void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties){
+        this.nacosDiscoveryProperties = nacosDiscoveryProperties;
+        setIpAndPort();
+    }
 
     public String getServerIp() {
         return serverIp;
@@ -45,4 +49,10 @@ public abstract class RegSend {
 
     public abstract void sendRegInfo();
     public abstract void revocationRegInfo();
+
+    private void setIpAndPort() {
+        String serverAddr = nacosDiscoveryProperties.getServerAddr();
+        this.serverIp = serverAddr.substring(0,serverAddr.indexOf(":"));
+        this.serverPort = Integer.valueOf(serverAddr.substring(serverAddr.indexOf(":") + 1));
+    }
 }

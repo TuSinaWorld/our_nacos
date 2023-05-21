@@ -11,26 +11,15 @@ public class RestTemplateRegSend extends RegSend {
     @Autowired
     private MyRestTemplate myRestTemplate;
 
-    private String regUrl;
-    private String removeUrl;
-
     public RestTemplateRegSend() {
         super();
     }
 
     public RestTemplateRegSend(NacosDiscoveryProperties nacosDiscoveryProperties){
         super(nacosDiscoveryProperties);
-        setIpAndPort();
-    }
-
-    @Override
-    public void setNacosDiscoveryProperties(NacosDiscoveryProperties nacosDiscoveryProperties) {
-        this.nacosDiscoveryProperties = nacosDiscoveryProperties;
-        setIpAndPort();
     }
 
     private void sendInfo(String url){
-        System.out.println(url);
         ResponseBean responseBean;
         try {
             //向指定url发送注册信息,接收为ResponseBean
@@ -60,20 +49,13 @@ public class RestTemplateRegSend extends RegSend {
 
     @Override
     public void sendRegInfo() {
-        sendInfo(regUrl);
+        sendInfo(getRegUrl());
     }
 
     @Override
     public void revocationRegInfo() {
-        sendInfo(removeUrl);
+        sendInfo(getRemoveUrl());
     }
 
-    private void setIpAndPort() {
-        String serverAddr = nacosDiscoveryProperties.getServerAddr();
-        this.serverIp = serverAddr.substring(0,serverAddr.indexOf(":"));
-        this.serverPort = Integer.valueOf(serverAddr.substring(serverAddr.indexOf(":") + 1));
-        this.regUrl = getRegUrl();
-        this.removeUrl = getRemoveUrl();
-    }
 
 }

@@ -30,7 +30,7 @@ public class SpringServer {
     public ResponseBean accept(@RequestBody BeatInfo beatInfo){
         //使用线程进行下一步操作
         Thread thread = new Thread(() -> {
-            logger.info(String.valueOf(beatInfo));
+//            logger.info(String.valueOf(beatInfo));
             //具体的下一步操作(请无视方法名的问题)
             storage.addServiceByBeat(beatInfo);
         });
@@ -47,7 +47,7 @@ public class SpringServer {
     public ResponseBean reg(@RequestBody NacosDiscoveryProperties nacosDiscoveryProperties){
         //使用线程进行下一步操作
         Thread thread = new Thread(() -> {
-            logger.info(String.valueOf(nacosDiscoveryProperties));
+//            logger.info(String.valueOf(nacosDiscoveryProperties));
             storage.regNewService(nacosDiscoveryProperties);
         });
         thread.setDaemon(true);

@@ -12,9 +12,7 @@ public abstract class BeatSend {
 
     public BeatSend(){}
     public BeatSend(BeatInfo beatInfo){
-        this.beatInfo = beatInfo;
-        this.serverIp = beatInfo.getServerIp();
-        this.serverPort = beatInfo.getSeverPort();
+        setBeatInfo(beatInfo);
     }
     public BeatSend setBeatInfo(BeatInfo beatInfo) {
         this.beatInfo = beatInfo;

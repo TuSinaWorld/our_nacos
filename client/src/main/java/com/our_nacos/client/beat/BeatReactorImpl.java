@@ -167,7 +167,7 @@ public class BeatReactorImpl implements BeatReactor {
                 logger.error("未知的错误:",e);
             }finally {
                 //根据心跳时间循环线程
-                logger.info("根据心跳时间循环发送心跳,实现心跳维持功能");
+                //logger.info("根据心跳时间循环发送心跳,实现心跳维持功能");
                 executorService.schedule(new BeatTask(beatInfo, beatSend), beatInfo.getPeriod(), TimeUnit.MILLISECONDS);
             }
         }

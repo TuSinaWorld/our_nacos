@@ -19,7 +19,7 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 
-public class MIneRestTemplate extends RestTemplate {
+public class MineRestTemplate extends RestTemplate {
 
     @Autowired(required = false)
     private LoadbalanceURL loadbalanceURL;

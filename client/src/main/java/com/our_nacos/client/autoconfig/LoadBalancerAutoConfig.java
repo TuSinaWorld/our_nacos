@@ -3,7 +3,7 @@ package com.our_nacos.client.autoconfig;
 import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.discovery.LoadbalanceURL;
 import com.our_nacos.client.discovery.ServiceDiscovery;
-import com.our_nacos.client.loadRestTemplate.MIneRestTemplate;
+import com.our_nacos.client.loadRestTemplate.MineRestTemplate;
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import com.our_nacos.client.loadbalance.WeightedLoadBalancer;
@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @Author: 乐哥
@@ -47,7 +46,7 @@ public class LoadBalancerAutoConfig {
     }
     @Bean
     @ConditionalOnClass(MyRestTemplate.class)
-    public MIneRestTemplate mIneRestTemplate(){
-        return new MIneRestTemplate();
+    public MineRestTemplate mIneRestTemplate(){
+        return new MineRestTemplate();
     }
 }

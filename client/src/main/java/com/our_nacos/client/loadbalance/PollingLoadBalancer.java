@@ -13,7 +13,6 @@ import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 //简单版
 //TODO:自动配置,托管条件
-@Component
 public class PollingLoadBalancer  implements MyLoadBalance{
     private AtomicInteger nextServerCyclicCounter = new AtomicInteger(0);
 

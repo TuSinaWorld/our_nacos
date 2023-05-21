@@ -18,7 +18,6 @@ import java.util.Map;
  */
 @ConfigurationProperties(prefix = "my.nacos.discovery")
 @AutoConfigureAfter({Serverport.class,NacosDiscoveryProperties.class})
-@Component
 public class Instance {
 
     static NacosDiscoveryProperties nacosDiscoveryProperties=new NacosDiscoveryProperties();

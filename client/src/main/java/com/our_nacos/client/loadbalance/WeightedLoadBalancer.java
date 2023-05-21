@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
-@Component
 public class WeightedLoadBalancer implements MyLoadBalance{
 
     public String choose(List<BeatInfo> beatInfos){

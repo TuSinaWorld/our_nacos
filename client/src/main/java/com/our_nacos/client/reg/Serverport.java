@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
  * @Description:
  */
 
-@AutoConfigureAfter(ServerProperties.class)
-@Component
 public class Serverport {
 
     @Autowired

@@ -1,6 +1,7 @@
 package com.our_nacos.client;
 
 import com.our_nacos.client.annotation.OurEnableDiscoveryClient;
+import com.our_nacos.client.reg.Instance;
 import com.our_nacos.client.reg.NacosRegAuto;
 import org.springframework.context.annotation.ImportSelector;
 import org.springframework.core.Ordered;
@@ -34,7 +35,7 @@ public class EnableDiscoveryImportSelector implements ImportSelector {
             boolean autoRegister = (boolean) attributes.get("autoregister");
             if (autoRegister) {
                 System.out.println("进来了....");
-                imports = new String[] {NacosRegAuto.class.getName()};
+                imports = new String[] {NacosRegAuto.class.getName(), Instance.class.getName()};
             } else {
                 System.out.println("未启用服务发现功能.....");
             }

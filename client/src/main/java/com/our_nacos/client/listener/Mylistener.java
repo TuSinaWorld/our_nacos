@@ -6,6 +6,7 @@ import com.our_nacos.client.reg.NacosDiscoveryProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -16,17 +17,13 @@ import javax.annotation.Resource;
  * @Time: 18:38
  * @Description:
  */
-@Component
 public abstract class Mylistener implements ApplicationListener<WebServerInitializedEvent> {
+
 
     private boolean isEnable;
 
     @Autowired
     Instance instance;
-
-//    @Autowired
-//    NacosRegAuto nacosRegAuto;
-
 
     public boolean isEnable() {
         return true;
@@ -44,6 +41,7 @@ public abstract class Mylistener implements ApplicationListener<WebServerInitial
 
     @Override
     public void onApplicationEvent(WebServerInitializedEvent event) {
+
         NacosDiscoveryProperties nacosDiscoveryProperties = instance.getNacosDiscoveryProperties();
         if(!isEnable()){
             System.out.println("服务配置未启用....");

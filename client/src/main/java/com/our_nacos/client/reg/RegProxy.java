@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @Time: 23:14
  * @Description:
  */
-@Component
 public class RegProxy {
 
     @Autowired

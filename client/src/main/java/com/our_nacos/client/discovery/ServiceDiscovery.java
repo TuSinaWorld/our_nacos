@@ -2,6 +2,7 @@ package com.our_nacos.client.discovery;
 
 import com.our_nacos.client.annotation.Loadbalance;
 import com.our_nacos.client.beat.BeatInfo;
+import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.loadbalance.MyLoadBalance;
 import com.our_nacos.client.reg.NacosRegAuto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class ServiceDiscovery {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private MyRestTemplate restTemplate;
 
     //根据serviceName获取服务端口
     public  Map<String,BeatInfo> findAll(){

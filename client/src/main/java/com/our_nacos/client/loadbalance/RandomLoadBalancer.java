@@ -9,7 +9,6 @@ import java.util.Random;
 import static com.our_nacos.client.common.Constants.REQUEST_HEAD;
 
 //TODO:自动配置,托管条件
-@Component
 public class RandomLoadBalancer implements MyLoadBalance {
 
     public String choose(List< BeatInfo > beatInfos){

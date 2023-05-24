@@ -25,6 +25,8 @@ public abstract class ServiceStorage {
     //注册服务方法
     //TODO:账号密码检测等等功能
     public abstract ServiceStorage regNewService(NacosDiscoveryProperties nacosDiscoveryProperties);
+    //提供只根据名字的注册方法,满足网页端需求
+    public abstract ServiceStorage regNewService(String serverName);
 
     //接收到服务心跳后的处理(请忽略方法名的问题)
     public abstract ServiceStorage addServiceByBeat(BeatInfo  beatInfo);

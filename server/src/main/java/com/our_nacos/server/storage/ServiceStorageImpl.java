@@ -44,12 +44,17 @@ public class ServiceStorageImpl extends ServiceStorage {
 
     @Override
     public ServiceStorage regNewService(NacosDiscoveryProperties nacosDiscoveryProperties) {
+        return regNewService(nacosDiscoveryProperties.getService());
+    }
+
+    @Override
+    public ServiceStorage regNewService(String serverName) {
         //初次注册服务进入if语句操作
-        if(!servicesMap.containsKey(nacosDiscoveryProperties.getService())){
+        if(!servicesMap.containsKey(serverName)){
             Map<String,BeatInfo> beatMap = new HashMap<>();
             //注册
-            logger.info("新服务注册:" + nacosDiscoveryProperties.getService());
-            servicesMap.put(nacosDiscoveryProperties.getService(),beatMap);
+            logger.info("新服务注册:" + serverName);
+            servicesMap.put(serverName,beatMap);
         }
         return this;
     }
@@ -174,6 +179,9 @@ public class ServiceStorageImpl extends ServiceStorage {
             }
             //心跳正常时执行健康检测
             else {
+                /*
+                演示注释,请演示完成后注释
+                */
 //                logger.info("正常检测"+beatInfo+beatTime);
                 try {
                     nextTime = Constants.BEAT_NEXT_TIME;
@@ -190,6 +198,9 @@ public class ServiceStorageImpl extends ServiceStorage {
                     //若心跳倒计时归0,该心跳终止.
                     if (beatTime <= 0) {
                         stopServiceByBeat(beatInfo);
+                        /*
+                        演示注释,请演示完成后注释
+                        */
 //                        logger.info("心跳已经停止.....:" + buildBeatInfoKey(beatInfo));
                         nextTime = 0;
                     }

@@ -10,10 +10,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/beat")
@@ -52,6 +54,21 @@ public class SpringServer {
         });
         thread.setDaemon(true);
         thread.setName(buildThreadName(nacosDiscoveryProperties));
+        thread.start();
+        return new ResponseBean(1,"",null);
+    }
+
+    @RequestMapping("/regByName")
+    public ResponseBean regByName(@RequestParam String serviceName){
+        //使用线程进行下一步操作
+        Thread thread = new Thread(() -> {
+//            logger.info(String.valueOf(nacosDiscoveryProperties));
+            storage.regNewService(serviceName);
+        });
+        thread.setDaemon(true);
+        Random random = new Random();
+        thread.setName("web_thread_"+serviceName + random.nextInt());
+        System.out.println("web_thread_"+serviceName + "_" + random.nextInt());
         thread.start();
         return new ResponseBean(1,"",null);
     }

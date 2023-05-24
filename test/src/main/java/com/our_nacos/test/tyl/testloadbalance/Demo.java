@@ -2,7 +2,7 @@ package com.our_nacos.test.tyl.testloadbalance;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.our_nacos.client.environment.Environment;
+import com.our_nacos.client.environment.EnvironmentSpace;
 import com.our_nacos.client.loadRestTemplate.MineRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +18,9 @@ public class Demo {
 
     @Autowired
     private MineRestTemplate mineRestTemplate;
-    
     @Autowired
-    private Environment environment;
+    private EnvironmentSpace environmentSpace;
+
 
     @RequestMapping("demo")
     public String get() throws JsonProcessingException, URISyntaxException {
@@ -32,7 +32,7 @@ public class Demo {
 
     @RequestMapping("/test")
     public Map<Object,Object>   test(){
-        Map<Object, Object> map = environment.getMemory();
+        Map<Object, Object> map = environmentSpace.getMemory();
         return map;
     }
 }

@@ -72,11 +72,7 @@ public class ServiceDiscovery {
                     declaredConstructor = configuration.getDeclaredConstructor();
                     try {
                         myLoadBalance =(MyLoadBalance)declaredConstructor.newInstance();
-                    } catch (InstantiationException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
+                    } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
                         e.printStackTrace();
                     }
                 } catch (NoSuchMethodException e) {

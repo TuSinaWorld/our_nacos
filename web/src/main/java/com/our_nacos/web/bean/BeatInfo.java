@@ -1,5 +1,7 @@
 package com.our_nacos.web.bean;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -34,6 +36,40 @@ public class BeatInfo {
     private String serverIp = "127.0.0.1";
 
     private Integer severPort = -1;
+
+    private Long freeSpace = 0L;
+
+    private Long totalSpace = 0L;
+
+    List<String> files = new ArrayList<>();
+
+    public void addFile(String file){
+        files.add(file);
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
+    }
+
+    public Long getFreeSpace() {
+        return freeSpace;
+    }
+
+    public void setFreeSpace(Long freeSpace) {
+        this.freeSpace = freeSpace;
+    }
+
+    public Long getTotalSpace() {
+        return totalSpace;
+    }
+
+    public void setTotalSpace(Long totalSpace) {
+        this.totalSpace = totalSpace;
+    }
 
     public String getServerIp() {
         return serverIp;

@@ -13,4 +13,7 @@ user:
   name: 123
   password: asd
 
+our-storage:
+  local-space: H:\codes
+
 

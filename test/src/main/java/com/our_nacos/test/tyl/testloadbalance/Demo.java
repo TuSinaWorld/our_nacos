@@ -31,8 +31,8 @@ public class Demo {
     }
 
     @RequestMapping("/test")
-    public Map<Object,Object>   test(){
-        Map<Object, Object> map = environmentSpace.getMemory();
+    public Map<String,Long>   test(){
+        Map<String, Long> map = environmentSpace.getMemory();
         return map;
     }
 }

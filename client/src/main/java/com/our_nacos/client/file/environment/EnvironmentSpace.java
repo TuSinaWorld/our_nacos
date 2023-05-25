@@ -1,4 +1,4 @@
-package com.our_nacos.client.environment;
+package com.our_nacos.client.file.environment;
 
 import org.springframework.beans.factory.annotation.Value;
 

@@ -2,7 +2,7 @@ package com.our_nacos.test.tyl.testloadbalance;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.our_nacos.client.environment.EnvironmentSpace;
+import com.our_nacos.client.file.environment.EnvironmentSpace;
 import com.our_nacos.client.loadRestTemplate.MineRestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

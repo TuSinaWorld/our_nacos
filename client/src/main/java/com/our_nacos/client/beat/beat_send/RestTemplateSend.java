@@ -4,7 +4,7 @@ import com.our_nacos.client.beat.BeatInfo;
 import com.our_nacos.client.common.Constants;
 import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.common.ResponseBean;
-import com.our_nacos.client.environment.EnvironmentSpace;
+import com.our_nacos.client.file.environment.EnvironmentSpace;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;

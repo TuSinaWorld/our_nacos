@@ -3,7 +3,7 @@ package com.our_nacos.client.autoconfig;
 import com.our_nacos.client.common.MyRestTemplate;
 import com.our_nacos.client.discovery.LoadbalanceURL;
 import com.our_nacos.client.discovery.ServiceDiscovery;
-import com.our_nacos.client.environment.EnvironmentSpace;
+import com.our_nacos.client.file.environment.EnvironmentSpace;
 import com.our_nacos.client.loadRestTemplate.MineRestTemplate;
 import com.our_nacos.client.loadbalance.PollingLoadBalancer;
 import com.our_nacos.client.loadbalance.RandomLoadBalancer;

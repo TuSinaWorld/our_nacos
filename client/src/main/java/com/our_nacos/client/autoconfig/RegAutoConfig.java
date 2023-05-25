@@ -1,5 +1,6 @@
 package com.our_nacos.client.autoconfig;
 
+import com.our_nacos.client.file.environment.EnvironmentSpace;
 import com.our_nacos.client.reg.*;
 import com.our_nacos.client.reg.reg_send.RegSend;
 import com.our_nacos.client.reg.reg_send.RestTemplateRegSend;
@@ -7,7 +8,6 @@ import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -46,12 +46,20 @@ public class RegAutoConfig {
     public NacosRegAuto nacosRegAuto(){
         return new NacosRegAuto();
     }
-    @Bean
+
+    @Configuration(proxyBeanMethods = false)
+    @AutoConfigureAfter(EnvironmentSpace.class)
+    @Order(1)
+    @ConditionalOnClass(name = "org.springframework.web.servlet.DispatcherServlet")
     @ConditionalOnBean(NacosDiscoveryProperties.class)
-    @Order(0)
-    public Instance instance(){
-        return new Instance();
+    protected static class setInstance {
+        //TODO:新增更多同实现类并根据选择托管相应类
+        @Bean
+        public Instance instance(){
+            return new Instance();
+        }
     }
+
 
 
     @Bean

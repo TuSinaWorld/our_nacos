@@ -14,6 +14,7 @@ public class BeatInfoAdapterNacosDiscoveryProperties extends BeatInfo {
         setMetadata(nacosDiscoveryProperties.getMetadata());
         setServerIp(nacosDiscoveryProperties.getServerAddr().substring(0,nacosDiscoveryProperties.getServerAddr().indexOf(":")));
         setSeverPort(Integer.valueOf(nacosDiscoveryProperties.getServerAddr().substring(nacosDiscoveryProperties.getServerAddr().indexOf(":") + 1)));
+        setFiles(nacosDiscoveryProperties.getFiles());
         //TODO:设置更多参数
     }
 }

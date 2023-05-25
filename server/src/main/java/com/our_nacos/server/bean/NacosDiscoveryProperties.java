@@ -1,8 +1,6 @@
 package com.our_nacos.server.bean;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: 乐哥
@@ -96,6 +94,20 @@ public class NacosDiscoveryProperties {
 
 
     private boolean isEnabled;
+
+    List<String> files = new ArrayList<>();
+
+    public void addFile(String file){
+        files.add(file);
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
+    }
 
     public boolean isEnabled() {
         return isEnabled;

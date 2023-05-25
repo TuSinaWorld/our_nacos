@@ -1,5 +1,6 @@
 package com.our_nacos.client.reg;
 
+import com.our_nacos.client.file.environment.EnvironmentSpace;
 import com.our_nacos.client.reg.util.InetAddressUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,9 @@ public class Instance {
     static NacosDiscoveryProperties nacosDiscoveryProperties=new NacosDiscoveryProperties();
     @Autowired
     Serverport serverport;
+
+    @Autowired
+    EnvironmentSpace environmentSpace;
 
     public Instance() {
     }
@@ -262,6 +266,7 @@ public class Instance {
         nacosDiscoveryProperties.setService(getService());
         nacosDiscoveryProperties.setNetworkInterface(getNetworkInterface());
         nacosDiscoveryProperties.setEnabled(isEnabled());//是否启用
+        nacosDiscoveryProperties.setFiles(environmentSpace.getFiles());
         return nacosDiscoveryProperties;
     }
 

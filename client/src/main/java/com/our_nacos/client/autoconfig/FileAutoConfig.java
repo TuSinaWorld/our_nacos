@@ -11,10 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 
 @Configuration
-@AutoConfigureAfter(RegAutoConfig.class)
+@AutoConfigureAfter(BeatAutoConfig.class)
 @Order(0)
 public class FileAutoConfig {
     @Bean
+    @Order(0)
     public EnvironmentSpace environmentSpace(){
         return new EnvironmentSpace();
     }

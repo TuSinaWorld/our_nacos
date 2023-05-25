@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -20,12 +22,26 @@ public class EnvironmentSpace {
 
     private Long total_space;
 
+    private List<String> files = new ArrayList<>();
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(ArrayList<String> files) {
+        this.files = files;
+    }
+
+    public void addFile(String file) {
+        files.add(file);
+    }
+
     public Map<String ,Long> getMemory(){
 
         String path = space.substring(0,space.indexOf(":")+1);
         String pan=space.substring(0,space.indexOf(":"));
         File file=new File(path);
-        Map<String,Long> map= new ConcurrentHashMap();
+        Map<String,Long> map= new ConcurrentHashMap<>();
 
         //获取信息
         free_space=file.getFreeSpace();
@@ -41,7 +57,16 @@ public class EnvironmentSpace {
     private void checkFile(){
         File file = new File(space);
         if(!file.exists()){
-            throw new NoFileException("设定文件夹无法找到!");
+            throw new NoFileException("设定文件夹不存在!");
+        }
+        if(file.isFile()){
+            throw new NoFileException("文件路径不能是文件!");
+        }
+        File[] filesArry = file.listFiles();
+        for (File file1 : filesArry) {
+            if(file1.isFile()){
+                addFile(file1.getName());
+            }
         }
     }
 

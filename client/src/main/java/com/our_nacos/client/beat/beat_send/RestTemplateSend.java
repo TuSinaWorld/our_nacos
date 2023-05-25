@@ -61,6 +61,7 @@ public class RestTemplateSend extends BeatSend{
         Map<String , Long> memory = environmentSpace.getMemory();
         beatInfo.setFreeSpace(memory.get("free"));
         beatInfo.setTotalSpace(memory.get("total"));
+        beatInfo.setFiles(environmentSpace.getFiles());
     }
 
 

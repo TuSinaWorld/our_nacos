@@ -1,8 +1,6 @@
 package com.our_nacos.client.reg;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: 乐哥
@@ -93,6 +91,20 @@ public class NacosDiscoveryProperties {
      * auto detect port works well.
      */
     private int port = -1;
+
+    List<String> files = new ArrayList<>();
+
+    public void addFile(String file){
+        files.add(file);
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
+    }
 
 
     private boolean isEnabled;

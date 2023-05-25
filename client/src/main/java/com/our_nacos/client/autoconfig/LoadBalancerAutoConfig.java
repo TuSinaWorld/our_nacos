@@ -50,8 +50,4 @@ public class LoadBalancerAutoConfig {
     public MineRestTemplate mIneRestTemplate(){
         return new MineRestTemplate();
     }
-    @Bean
-    public EnvironmentSpace environmentSpace(){
-        return new EnvironmentSpace();
-    }
 }

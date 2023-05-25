@@ -1,5 +1,7 @@
 package com.our_nacos.client.file.environment;
 
+import com.our_nacos.client.exception.NoFileException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 
@@ -35,4 +37,35 @@ public class EnvironmentSpace {
         return map;
     }
 
+    @Autowired
+    private void checkFile(){
+        File file = new File(space);
+        if(!file.exists()){
+            throw new NoFileException("设定文件夹无法找到!");
+        }
+    }
+
+    public String getSpace() {
+        return space;
+    }
+
+    public void setSpace(String space) {
+        this.space = space;
+    }
+
+    public Long getFree_space() {
+        return free_space;
+    }
+
+    public void setFree_space(Long free_space) {
+        this.free_space = free_space;
+    }
+
+    public Long getTotal_space() {
+        return total_space;
+    }
+
+    public void setTotal_space(Long total_space) {
+        this.total_space = total_space;
+    }
 }

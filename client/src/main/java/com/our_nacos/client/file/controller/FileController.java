@@ -27,30 +27,16 @@ public class FileController {
 
 
     @RequestMapping("/upload")
-    public String downloadFile(@RequestPart MultipartFile file)  {
-        String filename= file.getOriginalFilename();//文件名
-        System.out.println(filename);
-        try {
-            logger.info("文件路径:"+environmentSpace.getSpace()+File.separator+filename);
-            //transferto(),用于把图片上传到指定磁盘
-            file.transferTo(new File(environmentSpace.getSpace()+File.separator+filename));
-            environmentSpace.addFile(filename);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "接收成功";
-    }
-    @RequestMapping("/download/{fileName}")
-    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileName) {
-        File file = new File(environmentSpace.getSpace(), fileName);
-        if (!file.isFile()) {
-            throw new NoFileException(fileName);
+    public String uploadFile(@RequestPart MultipartFile file) {
+        if (file.isEmpty()) {
+            return "上传失败，请选择文件";
         }
 
-        try (InputStream input = new BufferedInputStream(Files.newInputStream(file.toPath()));
-             OutputStream output = response.getOutputStream()) {
+        String filename = file.getOriginalFilename();
+        // 对文件名进行安全性验证和清理
 
-            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        try (InputStream input = new BufferedInputStream(file.getInputStream());
+             OutputStream output = new BufferedOutputStream(Files.newOutputStream(new File(environmentSpace.getSpace() + File.separator + filename).toPath()))) {
 
             byte[] buffer = new byte[4096];
             int bytesRead;
@@ -58,6 +44,27 @@ public class FileController {
                 output.write(buffer, 0, bytesRead);
             }
 
+            environmentSpace.addFile(filename);
+            return "接收成功";
+        } catch (IOException e) {
+            logger.error("文件上传失败", e);
+            return "上传失败：" + e.getMessage();
+        }
+    }
+    @RequestMapping("/download/{fileName}")
+    public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileName) {
+        File file = new File(environmentSpace.getSpace(), fileName);
+        if (!file.isFile()) {
+            throw new NoFileException(fileName);
+        }
+        try (InputStream input = new BufferedInputStream(Files.newInputStream(file.toPath()));
+             OutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
             output.flush();
         } catch (FileNotFoundException e) {
             // 文件未找到异常处理

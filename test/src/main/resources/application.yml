@@ -1,0 +1,16 @@
+server:
+  port: ${port:8082}
+my:
+  nacos:
+    discovery:
+      serverAddr: localhost:25544
+      username: nacos
+      password: nacos
+      namespace: prod
+  application:
+    name: res-user
+user:
+  name: 123
+  password: asd
+
+

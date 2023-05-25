@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户管理</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.10/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui@2.15.10/lib/index.js"></script>
+    <style>
+        .el-container,#app,body,html{
+            height:100%;
+            overflow-y: hidden;
+        }
+        .box{
+            width: 200px;
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <el-container>
+        <el-main>
+            <el-table ref="multipleTable" :data="server" tooltip-effect="dark" style="width: 100%;float:left;" v-fit-columns>
+                <el-table-column prop="serviceName" label="服务名">
+                </el-table-column>
+                <el-table-column prop="cluster" label="分组名称">
+                </el-table-column>
+                <el-table-column prop="numServers" label="实例数" width="120">
+                </el-table-column>
+                <el-table-column label="实例信息"
+                                 fixed="right"
+                                 width="200"
+                >
+                    <template slot-scope="scope">
+                        <el-button
+                                type="primary"
+                                size="mini"
+                                @click="open(scope.row.serviceName)">详情</el-button>
+                    </template>
+                </el-table-column>
+
+            </el-table>
+        </el-main>
+    </el-container>
+    <!--显示实例信息-->
+    <el-dialog title="显示实例信息" :visible.sync="drawer">
+        <el-table ref="multipleTable" :data="services" tooltip-effect="dark" style="width: 400px;float:left;" v-fit-columns>
+            <el-table-column prop="serviceName" label="服务名">
+            </el-table-column>
+            <el-table-column prop="cluster" label="分组名称">
+            </el-table-column>
+            <el-table-column prop="port" label="端口" width="80">
+            </el-table-column>
+            <el-table-column prop="ip" label="ip地址" width="80">
+            </el-table-column>
+        </el-table>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="drawer=false">确认</el-button>
+        </div>
+    </el-dialog>
+</div>
+
+<script type="text/javascript">
+
+    var v = new Vue({
+        el:"#app",
+        data:{
+            servers:[],//总服务列表
+            server:[],
+            services:[],//服务实例详情
+            ser:{
+                serviceName:"",//服务名
+                cluster:"",//分组名
+                numServers:""//实例数
+            },
+            drawer:false,//控制修改窗口的开关
+        },
+        created(){
+            this.query();
+        },
+        methods: {
+            open(index) {
+                axios.get("/web/getServicesByServiceName?serviceName="+index).then(res=>{
+                    if(res.data.code==1){
+                        this.services= Object.values(res.data.obj);//转成数组
+                        console.info(this.services);
+                        this.drawer=true;
+                    }
+                })
+
+            },
+            query(){
+                axios.get("/web/getAllServices").then(res=>{
+                    if(res.data.code == 1){
+                        this.servers=res.data.obj;
+                        for (let key in this.servers) {
+                            this.ser={};
+                            let arr = Object.values(this.servers[key]); //对象转化为数组
+                            console.info("数组:"+arr);
+                            this.ser.numServers = arr.length;
+                            console.info("实例数:"+this.ser.numServers);
+                            this.ser.serviceName = arr[0].serviceName;
+                            console.info("服务名:"+this.ser.serviceName);
+                            this.ser.cluster = arr[0].cluster;
+                            this.server.push(this.ser);
+                        }
+                        console.info("合并后的数组:"+this.server);
+                    }else{
+                        alert("查询失败");
+                    }
+                })
+            }
+        },
+    })
+
+</script>
+
+</body>
+</html>

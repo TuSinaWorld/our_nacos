@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +26,20 @@ public class FileController {
     private EnvironmentSpace environmentSpace;
 
 
+    @RequestMapping("/upload")
+    public String downloadFile(@RequestPart MultipartFile file)  {
+        String filename= file.getOriginalFilename();//文件名
+        System.out.println(filename);
+        try {
+            logger.info("文件路径:"+environmentSpace.getSpace()+File.separator+filename);
+            //transferto(),用于把图片上传到指定磁盘
+            file.transferTo(new File(environmentSpace.getSpace()+File.separator+filename));
+            environmentSpace.addFile(filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "接收成功";
+    }
     @RequestMapping("/download/{fileName}")
     public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileName) {
         File file = new File(environmentSpace.getSpace(), fileName);

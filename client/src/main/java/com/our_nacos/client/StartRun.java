@@ -7,8 +7,9 @@ import com.our_nacos.client.loadbalance.RandomLoadBalancer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = {"com.our_nacos.client"})
+@SpringBootApplication(exclude = {MultipartAutoConfiguration.class})
 @OurEnableDiscoveryClient
 @Loadbalance()
 public class StartRun {

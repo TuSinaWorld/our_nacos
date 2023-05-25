@@ -14,6 +14,6 @@ user:
   password: asd
 
 our-storage:
-  local-space: H:\codes
+  local-space: D:\demo
 
 

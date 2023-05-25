@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 public class EnvironmentSpace {
-    @Value("${ourstorage.localspace}")
+    @Value("${our-storage.local-space}")
     private String space;
 
     private Long free_space;

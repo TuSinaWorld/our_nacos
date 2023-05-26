@@ -13,6 +13,16 @@ public abstract class ServiceStorage {
     //服务储存map
     protected volatile Map<String,Map<String,BeatInfo>> servicesMap = new HashMap<>();
 
+    //总文件列表  两层map结构:第一层服务名作为键,第二层文件名作为键,实例信息作为值
+    Map<String,Map<String,BeatInfo>> fileMap;
+
+    public Map<String, Map<String, BeatInfo>> getFileMap() {
+        return fileMap;
+    }
+
+    public void setFileMap(Map<String, Map<String, BeatInfo>> fileMap) {
+        this.fileMap = fileMap;
+    }
     //根据服务名获取服务列表
     public Map<String,BeatInfo> getBeatInfoList(String serviceName){
         return servicesMap.getOrDefault(serviceName, null);

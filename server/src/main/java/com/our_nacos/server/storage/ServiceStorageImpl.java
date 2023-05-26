@@ -25,6 +25,8 @@ public class ServiceStorageImpl extends ServiceStorage {
     //日志
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
+
+
     //线程池
     private final ScheduledExecutorService executorService;
     //TODO:从配置文件中自定义线程数

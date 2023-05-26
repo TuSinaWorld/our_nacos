@@ -9,4 +9,13 @@ public class Constants {
     public static final Integer BEAT_TIME_LIMIT = 15;
     //心跳检间隔(毫秒)
     public static final Integer BEAT_NEXT_TIME = 5000;
+
+    //路径分隔符
+    public static final String URL_SEPARATE = ":";
+
+    // http:// ip :port/ 服务名/ down
+    public static  final String  HTTP = "http://";
+
+    //http路径分隔符
+    public static  final String  HTTP_SEPARATE = "/";
 }

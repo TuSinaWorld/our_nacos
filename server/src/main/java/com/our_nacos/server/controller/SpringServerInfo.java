@@ -1,6 +1,8 @@
 package com.our_nacos.server.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.our_nacos.server.bean.BeatInfo;
+import com.our_nacos.server.storage.GetService;
 import com.our_nacos.server.storage.ServiceStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,8 @@ public class SpringServerInfo {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     ServiceStorage storage;
+    @Autowired
+    private GetService getService;
 
     //根据服务名获取服务类别的mvc方法
     @RequestMapping("/list")
@@ -42,5 +46,16 @@ public class SpringServerInfo {
             logger.error("该服务名未注册,无法获取相关实例信息...");
         }
         return servicesMap;
+    }
+
+    @RequestMapping("/getURl")
+    public BeatInfo geturl(){
+        BeatInfo beatInfo=null;
+        try {
+            beatInfo = getService.GetServiceName("res-food");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return beatInfo;
     }
 }

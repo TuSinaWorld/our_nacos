@@ -14,6 +14,6 @@ user:
   password: asd
 
 our-storage:
-  local-space: D:\demo
+  local-space: D:\baotai\BT-Term
 
 

@@ -1,10 +1,14 @@
 package com.our_nacos.server.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.our_nacos.server.bean.BeatInfo;
+import com.our_nacos.server.common.Constants;
+import com.our_nacos.server.storage.GetService;
 import com.our_nacos.server.storage.ServiceStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +28,9 @@ public class SpringServerInfo {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     ServiceStorage storage;
+
+    @Autowired
+    private GetService getService;
 
     //根据服务名获取服务类别的mvc方法
     @RequestMapping("/list")
@@ -69,7 +76,7 @@ public class SpringServerInfo {
         Map<String, BeatInfo> beatInfoMap = fileMap.get(serviceName);
         BeatInfo beatInfo = beatInfoMap.get(fileName);
         // http:// ip :port/ 服务名/ download/文件名
-        String url=Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
+        String url= Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
                 +Constants.HTTP_SEPARATE+"download"+Constants.HTTP_SEPARATE;
         logger.info("获取到的url:"+url);
         return url;

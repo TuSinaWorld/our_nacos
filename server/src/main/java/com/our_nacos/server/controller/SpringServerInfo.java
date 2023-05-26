@@ -1,10 +1,13 @@
 package com.our_nacos.server.controller;
 
 import com.our_nacos.server.bean.BeatInfo;
+import com.our_nacos.server.common.Constants;
 import com.our_nacos.server.storage.ServiceStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,5 +45,25 @@ public class SpringServerInfo {
             logger.error("该服务名未注册,无法获取相关实例信息...");
         }
         return servicesMap;
+    }
+
+    @RequestMapping("/getUrl/{fileName}")
+    public String getUrl(@PathVariable("fileName") String fileName, @RequestParam String serviceName){
+        if("".equals(serviceName) || serviceName.length()==0){
+            logger.error("获取服务名失败");
+            return "获取的服务名为空";
+        }
+        if("".equals(fileName) || fileName.length()==0 ){
+            logger.error("获取到的文件名为空!");
+            return "获取到的文件名为空";
+        }
+        Map<String, Map<String, BeatInfo>> fileMap = storage.getFileMap();
+        Map<String, BeatInfo> beatInfoMap = fileMap.get(serviceName);
+        BeatInfo beatInfo = beatInfoMap.get(fileName);
+        // http:// ip :port/ 服务名/ download/文件名
+        String url=Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
+                +Constants.HTTP_SEPARATE+"download"+Constants.HTTP_SEPARATE;
+        logger.info("获取到的url:"+url);
+        return url;
     }
 }

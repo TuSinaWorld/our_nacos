@@ -30,7 +30,7 @@ public class FileController {
 
 
     @RequestMapping("/upload")
-    public String uploadFile(@RequestPart MultipartFile file) {
+    public String uploadFile(@RequestPart MultipartFile file,HttpServletResponse response) {
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
@@ -48,6 +48,7 @@ public class FileController {
             }
 
             environmentSpace.addFile(filename);
+            response.setStatus(200);
             return "接收成功";
         } catch (IOException e) {
             logger.error("文件上传失败", e);
@@ -70,6 +71,7 @@ public class FileController {
                 output.write(buffer, 0, bytesRead);
             }
             output.flush();
+            response.setStatus(200);
         } catch (FileNotFoundException e) {
             // 文件未找到异常处理
             logger.error("文件未找到", e);

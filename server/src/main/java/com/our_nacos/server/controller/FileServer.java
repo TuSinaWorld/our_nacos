@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Map;
 
@@ -44,9 +45,10 @@ public class FileServer {
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
+
         try {
             String forwardUrl = uploadUrl(serverName);
-            logger.info("获取的url地址:"+forwardUrl);
+            logger.info("获取的url地址:" + forwardUrl);
             URL url = new URL(forwardUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoOutput(true);
@@ -56,16 +58,27 @@ public class FileServer {
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=---------------------------boundary");
 
             // 构建请求体
-            OutputStream outputStream = connection.getOutputStream();
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+            OutputStream outputStream = new BufferedOutputStream(connection.getOutputStream());
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
             String boundary = "---------------------------boundary";
             writer.append("--").append(boundary).append("\r\n");
             writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(file.getOriginalFilename()).append("\"\r\n");
             writer.append("Content-Type: ").append(file.getContentType()).append("\r\n\r\n");
             writer.flush();
 
+
+            // 分块上传
+            int chunkSize = 1024 * 1024; // 每块大小为1MB
+            byte[] buffer = new byte[chunkSize];
+            try (InputStream inputStream = new BufferedInputStream(file.getInputStream())) {
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+            }
+
             // 将文件写入请求体
-//            file.transferTo(outputStream);
+            //outputStream.write(file.getBytes());
             outputStream.flush();
 
             writer.append("\r\n");
@@ -74,11 +87,9 @@ public class FileServer {
 
             // 发送请求并获取响应
             int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                return "文件上传成功";
-            } else {
-                return "文件上传失败";
-            }
+            logger.info("Response Code: " + responseCode);
+            logger.info("Response Message: " + connection.getResponseMessage());
+            return 200+"上传成功";
         } catch (IOException e) {
             // 处理异常
             logger.error("文件上传异常", e);

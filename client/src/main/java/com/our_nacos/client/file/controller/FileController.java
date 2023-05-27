@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -24,6 +25,8 @@ public class FileController {
 
     @Autowired
     private EnvironmentSpace environmentSpace;
+
+
 
 
     @RequestMapping("/upload")
@@ -76,4 +79,6 @@ public class FileController {
             throw new RuntimeException("文件下载异常", e);
         }
     }
+
+
 }

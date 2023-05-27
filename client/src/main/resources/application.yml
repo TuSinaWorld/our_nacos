@@ -14,5 +14,5 @@ user:
   password: asd
 
 our-storage:
-  local-space: H:\our_nacos_files
+  local-space: D:\demo
 

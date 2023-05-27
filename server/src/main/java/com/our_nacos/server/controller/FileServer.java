@@ -1,7 +1,9 @@
 package com.our_nacos.server.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.our_nacos.server.bean.BeatInfo;
 import com.our_nacos.server.common.Constants;
+import com.our_nacos.server.storage.GetService;
 import com.our_nacos.server.storage.ServiceStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Path;
 import java.util.Map;
 
 @RestController
@@ -28,45 +31,59 @@ public class FileServer {
 
     @Autowired
     ServiceStorage storage;
+
+    @Autowired
+    GetService getService;
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
 
 
-    @RequestMapping("/upload/{fileName}")
-    public String uploadFile(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileName,@RequestParam String serverName,@RequestPart MultipartFile file){
-        if(file.isEmpty()){
-            logger.error("获取到的文件为空");
-            return "获取文件为空";
+    @RequestMapping("/upload")
+    public String uploadFile( @RequestParam String serverName,@RequestPart MultipartFile file){
+        if (file.isEmpty()) {
+            return "上传失败，请选择文件";
         }
-        RestTemplate restTemplate = new RestTemplate();
-        try{
-            File uploadfile = new File(file.getOriginalFilename());//获取文件名称
-            // 构建文件转发请求
-            String forwardUrl = uploadUrl(serverName, fileName);
-            logger.info("上传的文件地址:"+forwardUrl);
-            MultiValueMap<String, Object> requestBody = new LinkedMultiValueMap<>();
-            requestBody.add("file", new FileSystemResource(uploadfile));
+        try {
+            String forwardUrl = uploadUrl(serverName);
+            logger.info("获取的url地址:"+forwardUrl);
+            URL url = new URL(forwardUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
 
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+            // 设置请求头
+            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=---------------------------boundary");
 
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(requestBody, headers);
+            // 构建请求体
+            OutputStream outputStream = connection.getOutputStream();
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+            String boundary = "---------------------------boundary";
+            writer.append("--").append(boundary).append("\r\n");
+            writer.append("Content-Disposition: form-data; name=\"file\"; filename=\"").append(file.getOriginalFilename()).append("\"\r\n");
+            writer.append("Content-Type: ").append(file.getContentType()).append("\r\n\r\n");
+            writer.flush();
 
-            // 发送文件转发请求给原服务器
-            ResponseEntity<String> responseEntity = restTemplate.exchange(forwardUrl, HttpMethod.POST, requestEntity, String.class);
+            // 将文件写入请求体
+//            file.transferTo(outputStream);
+            outputStream.flush();
 
+            writer.append("\r\n");
+            writer.append("--").append(boundary).append("--\r\n");
+            writer.close();
 
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return "File uploaded successfully.";
-        } else {
-            return "Failed to upload file.";
+            // 发送请求并获取响应
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                return "文件上传成功";
+            } else {
+                return "文件上传失败";
+            }
+        } catch (IOException e) {
+            // 处理异常
+            logger.error("文件上传异常", e);
+            return "文件上传异常：" + e.getMessage();
         }
-    } catch (Exception e) {
-        // 处理异常
-        logger.error("文件上传异常", e);
-        return "文件上传异常";
-    }
     }
 
 
@@ -118,21 +135,15 @@ public class FileServer {
         return url;
     }
 
-    private String uploadUrl(String serviceName,String fileName){
+    private String uploadUrl(String serviceName) throws JsonProcessingException {
         if("".equals(serviceName) || serviceName.length()==0){
             logger.error("获取服务名失败");
             return "获取的服务名为空";
         }
-        if("".equals(fileName) || fileName.length()==0 ){
-            logger.error("获取到的文件名为空!");
-            return "获取到的文件名为空";
-        }
-        Map<String, Map<String, BeatInfo>> fileMap = storage.getFileMap();
-        Map<String, BeatInfo> beatInfoMap = fileMap.get(serviceName);
-        BeatInfo beatInfo = beatInfoMap.get(fileName);
+        BeatInfo beatInfo = getService.GetServiceName(serviceName);
         // http:// ip :port/服务名/download/文件名
         String url= Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
-                +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"upload"+Constants.HTTP_SEPARATE+fileName;
+                +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"upload";
         logger.info("获取到的url:"+url);
         return url;
     }

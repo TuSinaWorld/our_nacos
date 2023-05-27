@@ -37,7 +37,7 @@ public class FileController {
 
         String filename = file.getOriginalFilename();
         // 对文件名进行安全性验证和清理
-
+        logger.info("获取到的文件"+filename);
         try (InputStream input = new BufferedInputStream(file.getInputStream());
              OutputStream output = new BufferedOutputStream(Files.newOutputStream(new File(environmentSpace.getSpace() + File.separator + filename).toPath()))) {
 

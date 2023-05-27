@@ -56,6 +56,7 @@ public class FileController {
     }
     @RequestMapping("/download/{fileName}")
     public void download(HttpServletRequest request, HttpServletResponse response, @PathVariable String fileName) {
+        logger.info("开始下载:"+fileName);
         File file = new File(environmentSpace.getSpace(), fileName);
         if (!file.isFile()) {
             throw new NoFileException(fileName);

@@ -3,7 +3,7 @@ server:
 my:
   nacos:
     discovery:
-      serverAddr: 192.168.1.200:25544
+      serverAddr: 127.0.0.1:25544
       username: nacos
       password: nacos
       namespace: prod
@@ -14,6 +14,5 @@ user:
   password: asd
 
 our-storage:
-  local-space: D:\demo
-
+  local-space: H:\our_nacos_files
 

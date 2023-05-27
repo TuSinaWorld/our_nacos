@@ -153,38 +153,4 @@ public class SpringServerInfo {
         logger.info("获取到的url:"+url);
         return url;
     }
-    @RequestMapping("/proxy/{fileName}")
-    public void proxyFile(HttpServletRequest request, HttpServletResponse response,@RequestParam String serverName ,@PathVariable String fileName) {
-        String originalServerUrl = downloadUrl(serverName,fileName); // 原服务器的URL
-
-        try {
-            URL url = new URL(originalServerUrl + "/download/" + fileName);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
-                InputStream input = new BufferedInputStream(connection.getInputStream());
-                OutputStream output = new BufferedOutputStream(response.getOutputStream());
-
-                byte[] buffer = new byte[4096];
-                int bytesRead;
-                while ((bytesRead = input.read(buffer)) != -1) {
-                    output.write(buffer, 0, bytesRead);
-                }
-
-                output.flush();
-                input.close();
-                output.close();
-            } else {
-                // 处理原服务器返回的错误状态码
-                response.setStatus(responseCode);
-            }
-        } catch (IOException e) {
-            // 处理异常
-            logger.error("代理文件异常", e);
-            throw new RuntimeException("代理文件异常", e);
-        }
-    }
-
 }

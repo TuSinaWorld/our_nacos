@@ -5,7 +5,9 @@ import com.our_nacos.server.bean.NacosDiscoveryProperties;
 import com.our_nacos.server.common.Constants;
 import com.our_nacos.server.exception.NullBeatInfoException;
 
+import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -14,7 +16,7 @@ public abstract class ServiceStorage {
     protected volatile Map<String,Map<String,BeatInfo>> servicesMap = new HashMap<>();
 
     //总文件列表  两层map结构:第一层服务名作为键,第二层文件名作为键,实例信息作为值
-    Map<String,Map<String,BeatInfo>> fileMap;
+    protected Map<String,Map<String,BeatInfo>> fileMap = new HashMap<>();
 
     public Map<String, Map<String, BeatInfo>> getFileMap() {
         return fileMap;
@@ -23,6 +25,47 @@ public abstract class ServiceStorage {
     public void setFileMap(Map<String, Map<String, BeatInfo>> fileMap) {
         this.fileMap = fileMap;
     }
+
+    public void addFileService(String serviceName){
+        if(!fileMap.containsKey(serviceName)){
+            fileMap.put(serviceName, new HashMap<>());
+        }
+    }
+
+    public void addFileByBeatInfo(BeatInfo beatInfo){
+        Map<String, BeatInfo> fileByServiceName = getFileByServiceName(beatInfo.getServiceName());
+        if(fileByServiceName == null){
+            throw new RuntimeException("非法的:服务未注册!");
+        }
+        List<String> files = beatInfo.getFiles();
+        for (String file : files) {
+            if(fileByServiceName.containsKey(file)){
+                fileByServiceName.replace(file,beatInfo);
+            }else{
+                fileByServiceName.put(file,beatInfo);
+            }
+        }
+    }
+
+    public Map<String, BeatInfo> getFileByServiceName(String serviceName){
+        if(fileMap.containsKey(serviceName)){
+            return fileMap.get(serviceName);
+        }
+        return null;
+    }
+
+    public BeatInfo getFileBeatInfo(String serviceName,String fileName){
+        Map<String, BeatInfo> fileByServiceName = getFileByServiceName(serviceName);
+        if(fileByServiceName != null && fileByServiceName.containsKey(fileName)){
+            return fileByServiceName.get(fileName);
+        }
+        return null;
+    }
+
+    public BeatInfo getFileBeatInfo(String serviceName,File file){
+        return getFileBeatInfo(serviceName,file.getName());
+    }
+
     //根据服务名获取服务列表
     public Map<String,BeatInfo> getBeatInfoList(String serviceName){
         return servicesMap.getOrDefault(serviceName, null);

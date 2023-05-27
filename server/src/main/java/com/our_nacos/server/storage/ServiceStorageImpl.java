@@ -58,6 +58,9 @@ public class ServiceStorageImpl extends ServiceStorage {
             logger.info("新服务注册:" + serverName);
             servicesMap.put(serverName,beatMap);
         }
+        if(!fileMap.containsKey(serverName)){
+            addFileService(serverName);
+        }
         return this;
     }
 
@@ -130,6 +133,10 @@ public class ServiceStorageImpl extends ServiceStorage {
         stringBeatInfoMap.replace(buildBeatInfoKey(beatInfo),beatInfo);
     }
 
+    private void setFileBeatInfo(BeatInfo beatInfo){
+        addFileByBeatInfo(beatInfo);
+    }
+
     //根据心跳信息构建键名获取服务类别中的心跳
     private BeatInfo getBeatInfo(BeatInfo beatInfo){
         if(!servicesMap.containsKey(beatInfo.getServiceName())){
@@ -192,6 +199,7 @@ public class ServiceStorageImpl extends ServiceStorage {
                         this.beatTime = Constants.BEAT_TIME_LIMIT;
                         this.beatInfo.setScheduled(false);
                         setBeatInfo(beatInfo);
+                        setFileBeatInfo(beatInfo);
                     }
                     //若无,心跳倒计时减5秒
                     else {

@@ -30,13 +30,13 @@ public class SpringServerInfo {
     ServiceStorage storage;
 
     @Autowired
-    private GetService getService;
+    GetService getService;
 
     //根据服务名获取服务类别的mvc方法
     @RequestMapping("/list")
     public Map<String, BeatInfo> getInstanceList(@RequestParam String serviceName){
         Map<String, BeatInfo> beatInfoList = storage.getBeatInfoList(serviceName);
-        if(beatInfoList==null && beatInfoList.isEmpty()){
+        if(beatInfoList==null || beatInfoList.isEmpty()){
             logger.error("该服务名未注册,无法获取相关实例信息...");
         }
         return beatInfoList;
@@ -51,15 +51,9 @@ public class SpringServerInfo {
         return servicesMap;
     }
 
-    @RequestMapping("/getURl")
-    public BeatInfo geturl(){
-        BeatInfo beatInfo=null;
-        try {
-            beatInfo = getService.GetServiceName("res-food");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return beatInfo;
+    @RequestMapping("/fileList")
+    public Map<String, Map<String, BeatInfo>> getFileList(){
+        return storage.getFileMap();
     }
 
     @RequestMapping("/getUrl/{fileName}")
@@ -75,10 +69,26 @@ public class SpringServerInfo {
         Map<String, Map<String, BeatInfo>> fileMap = storage.getFileMap();
         Map<String, BeatInfo> beatInfoMap = fileMap.get(serviceName);
         BeatInfo beatInfo = beatInfoMap.get(fileName);
-        // http:// ip :port/ 服务名/ download/文件名
+        // http:// ip :port/服务名/download/文件名
         String url= Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
-                +Constants.HTTP_SEPARATE+"download"+Constants.HTTP_SEPARATE;
+                +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"download"+Constants.HTTP_SEPARATE+fileName;
         logger.info("获取到的url:"+url);
         return url;
+    }
+
+    @RequestMapping("/getUploadUrl")
+    public String getUploadUrl(@RequestParam String serviceName){
+        BeatInfo beatInfo;
+        try {
+            beatInfo = getService.GetServiceName(serviceName);
+        } catch (JsonProcessingException e) {
+            beatInfo = null;
+        }
+        if(beatInfo == null){
+            logger.error("获取服务器失败");
+            return "获取的服务器为空";
+        }
+        return Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
+                +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"upload";
     }
 }

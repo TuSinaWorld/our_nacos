@@ -2,4 +2,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.our_nacos.client.autoconfig.RegAutoConfig,\
 com.our_nacos.client.autoconfig.BeatAutoConfig,\
 com.our_nacos.client.autoconfig.LoadBalancerAutoConfig,\
-com.our_nacos.client.autoconfig.FileUploadConfiuration
+com.our_nacos.client.autoconfig.FileUploadConfiuration,\
+com.our_nacos.client.file.environment.EnvironmentSpace

@@ -45,7 +45,7 @@ public class FileServer {
         if (file.isEmpty()) {
             return "上传失败，请选择文件";
         }
-
+        logger.info("获取到的服务名"+serverName);
         try {
             String forwardUrl = uploadUrl(serverName);
             logger.info("获取的url地址:" + forwardUrl);
@@ -140,7 +140,7 @@ public class FileServer {
         Map<String, BeatInfo> beatInfoMap = fileMap.get(serviceName);
         BeatInfo beatInfo = beatInfoMap.get(fileName);
         // http:// ip :port/服务名/download/文件名
-        String url= Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
+        String url= Constants.HTTP+beatInfo.getIp()+Constants.URL_SEPARATE+beatInfo.getPort()
                 +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"download"+Constants.HTTP_SEPARATE+fileName;
         logger.info("获取到的url:"+url);
         return url;
@@ -153,7 +153,7 @@ public class FileServer {
         }
         BeatInfo beatInfo = getService.GetServiceName(serviceName);
         // http:// ip :port/服务名/download/文件名
-        String url= Constants.HTTP+beatInfo.getServerIp()+Constants.URL_SEPARATE+beatInfo.getPort()
+        String url= Constants.HTTP+beatInfo.getIp()+Constants.URL_SEPARATE+beatInfo.getPort()
                 +Constants.HTTP_SEPARATE+ serviceName + Constants.HTTP_SEPARATE +"upload";
         logger.info("获取到的url:"+url);
         return url;

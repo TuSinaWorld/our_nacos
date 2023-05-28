@@ -19,7 +19,7 @@ public class GetService {
 
     public BeatInfo GetServiceName(String serviceName) throws JsonProcessingException {
         int index=0;
-        Map<String, BeatInfo> beatInfoList = serviceStorage.getBeatInfoList("res-food");
+        Map<String, BeatInfo> beatInfoList = serviceStorage.getBeatInfoList(serviceName);
 
         ObjectMapper mapper=new ObjectMapper();
         CollectionType listType =

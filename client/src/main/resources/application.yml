@@ -3,7 +3,7 @@ server:
 my:
   nacos:
     discovery:
-      serverAddr: 127.0.0.1:25544
+      serverAddr: localhost:25544
       username: nacos
       password: nacos
       namespace: prod
@@ -14,5 +14,6 @@ user:
   password: asd
 
 our-storage:
-  local-space: D:\demo
+  local-space: ${space:D:\Oracle}
+
 
